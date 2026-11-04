@@ -1,1 +1,3662 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Digidaw</title>
+    <style>
+      :root {
+        --bg: #f6f7fb;
+        --pn: #fff;
+        --bd: #e6e8ef;
+        --tx: #1f2430;
+        --mu: #7a8194;
+        --ac: #3b82f6;
+        --hv: #e8f0ff;
+        --sh: 0 4px 18px #1f243014;
+        --cv: #f7f8fb;
+        --dot: #cdd3df;
+        --ink: #1f2937;
+        box-sizing: border-box;
+        padding-top: env(safe-area-inset-top, 0px);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          --bg: #16171b;
+          --pn: #23252b;
+          --bd: #32353d;
+          --tx: #eceef2;
+          --mu: #99a0ae;
+          --hv: #1e2a44;
+          --sh: 0 4px 18px #0006;
+          --cv: #14151a;
+          --dot: #2c2f38;
+          --ink: #e6e8ee;
+        }
+      }
+      :root[data-theme="dark"] {
+        --bg: #16171b;
+        --pn: #23252b;
+        --bd: #32353d;
+        --tx: #eceef2;
+        --mu: #99a0ae;
+        --hv: #1e2a44;
+        --sh: 0 4px 18px #0006;
+        --cv: #14151a;
+        --dot: #2c2f38;
+        --ink: #e6e8ee;
+      }
+      html {
+        scroll-padding-top: env(safe-area-inset-top, 0px);
+      }
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+      }
+      body {
+        background: var(--bg);
+        color: var(--tx);
+        font:
+          13px/1.4 Inter,
+          system-ui,
+          -apple-system,
+          "Segoe UI",
+          sans-serif;
+        overflow: hidden;
+      }
+      button,
+      input,
+      textarea {
+        font: inherit;
+        color: inherit;
+      }
+      button {
+        background: var(--pn);
+        border: 1px solid var(--bd);
+        border-radius: 8px;
+        padding: 6px 10px;
+        cursor: pointer;
+        white-space: nowrap;
+      }
+      button:hover {
+        background: var(--hv);
+        border-color: var(--ac);
+      }
+      button.on {
+        background: var(--ac);
+        color: #fff;
+        border-color: var(--ac);
+      }
+      #cw {
+        position: absolute;
+        inset: 0;
+      }
+      #cv {
+        width: 100%;
+        height: 100%;
+        display: block;
+        background: var(--cv);
+        touch-action: none;
+      }
+      .fl {
+        position: absolute;
+        background: var(--pn);
+        border: 1px solid var(--bd);
+        border-radius: 14px;
+        box-shadow: var(--sh);
+        z-index: 3;
+      }
+      #top {
+        left: 12px;
+        top: calc(12px + env(safe-area-inset-top, 0px));
+        padding: 8px 14px;
+        font-weight: 600;
+      }
+      #top i {
+        color: var(--ac);
+        font-style: normal;
+      }
+      #tr {
+        right: 12px;
+        top: calc(12px + env(safe-area-inset-top, 0px));
+        padding: 6px;
+        display: flex;
+        gap: 6px;
+      }
+      #bt {
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+        padding: 6px;
+        display: flex;
+        gap: 6px;
+        align-items: center;
+      }
+      #bt .v {
+        width: 1px;
+        height: 22px;
+        background: var(--bd);
+      }
+      #zl {
+        min-width: 40px;
+        text-align: center;
+        color: var(--mu);
+      }
+      #lp {
+        left: 12px;
+        top: calc(62px + env(safe-area-inset-top, 0px));
+        bottom: calc(72px + env(safe-area-inset-bottom, 0px));
+        width: 236px;
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+        gap: 8px;
+      }
+      #lp .tb {
+        display: flex;
+        gap: 6px;
+      }
+      #lp .tb button {
+        flex: 1;
+      }
+      #ps,
+      #pv {
+        overflow: auto;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      #pv[hidden],
+      #ps[hidden] {
+        display: none;
+      }
+      input[type="text"],
+      input:not([type]),
+      textarea,
+      input[type="number"] {
+        background: var(--bg);
+        border: 1px solid var(--bd);
+        border-radius: 8px;
+        padding: 6px 8px;
+        width: 100%;
+        box-sizing: border-box;
+      }
+      h4 {
+        margin: 8px 0 2px;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--mu);
+      }
+      .sg {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 4px;
+      }
+      .sb {
+        padding: 3px;
+        border-radius: 8px;
+        border-color: transparent;
+        background: none;
+        color: var(--tx);
+      }
+      .sb svg {
+        width: 100%;
+        display: block;
+      }
+      #ic {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+      }
+      .ib {
+        position: relative;
+        aspect-ratio: 1;
+        border: 1px solid var(--bd);
+        border-radius: 10px;
+        background: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+      .ib img {
+        max-width: 80%;
+        max-height: 80%;
+      }
+      .ib i {
+        position: absolute;
+        top: -6px;
+        right: -6px;
+        background: var(--ac);
+        color: #fff;
+        border-radius: 50%;
+        width: 16px;
+        height: 16px;
+        font-style: normal;
+        font-size: 11px;
+        text-align: center;
+        line-height: 16px;
+        display: none;
+      }
+      .ib:hover i {
+        display: block;
+      }
+      #pp {
+        right: 12px;
+        top: calc(62px + env(safe-area-inset-top, 0px));
+        width: 216px;
+        max-height: calc(100% - 150px);
+        overflow: auto;
+        padding: 10px;
+        display: none;
+      }
+      #pp label {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+        color: var(--mu);
+        font-size: 11px;
+        margin-bottom: 6px;
+      }
+      #pp label.c {
+        flex-direction: row;
+        align-items: center;
+        gap: 6px;
+        font-size: 12px;
+        color: var(--tx);
+      }
+      #pp input[type="color"] {
+        width: 100%;
+        height: 28px;
+        padding: 0;
+        border: 1px solid var(--bd);
+        border-radius: 8px;
+        background: none;
+      }
+      .g {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+        margin-bottom: 6px;
+      }
+      .g3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 4px;
+        margin-bottom: 6px;
+      }
+      .g3 button {
+        padding: 6px 2px;
+      }
+      #hint {
+        position: absolute;
+        right: 14px;
+        bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+        color: var(--mu);
+        font-size: 11px;
+        pointer-events: none;
+        text-align: right;
+      }
+      #ts {
+        position: fixed;
+        left: 50%;
+        bottom: 80px;
+        transform: translateX(-50%);
+        background: #111827;
+        color: #fff;
+        padding: 8px 14px;
+        border-radius: 8px;
+        opacity: 0;
+        transition: 0.2s;
+        pointer-events: none;
+        z-index: 9;
+      }
+      #ts.s {
+        opacity: 1;
+      }
+      .ed {
+        position: fixed;
+        z-index: 7;
+        box-sizing: border-box;
+        text-align: center;
+        border: 2px solid var(--ac) !important;
+        border-radius: 8px;
+        background: #fff !important;
+        color: #111 !important;
+        resize: none;
+        padding: 6px;
+      }
+      #md {
+        position: fixed;
+        inset: 0;
+        background: #0009;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 8;
+      }
+      #md[hidden] {
+        display: none;
+      }
+      .bx {
+        background: var(--pn);
+        padding: 16px;
+        border-radius: 14px;
+        max-width: 92vw;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      #stg {
+        position: relative;
+        display: inline-block;
+        cursor: crosshair;
+        align-self: center;
+        background: repeating-conic-gradient(#ddd 0 25%, #fff 0 50%) 0 0/14px
+          14px;
+        user-select: none;
+      }
+      #pi {
+        display: block;
+        max-width: 80vw;
+        max-height: 55vh;
+        -webkit-user-drag: none;
+      }
+      #sr {
+        position: absolute;
+        border: 2px solid var(--ac);
+        background: #3b82f633;
+        pointer-events: none;
+        display: none;
+      }
+      .rw {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .rw .sp {
+        flex: 1;
+      }
+      .rw label {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+      }
+      .pri {
+        background: var(--ac);
+        color: #fff;
+        border-color: var(--ac);
+      }
+      select {
+        background: var(--bg);
+        border: 1px solid var(--bd);
+        border-radius: 8px;
+        padding: 5px;
+        color: inherit;
+      }
+      @media (max-width: 760px) {
+        #lp {
+          width: 170px;
+        }
+        #pp {
+          width: 170px;
+        }
+        #hint {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="cw">
+      <svg id="cv">
+        <defs>
+          <marker
+            id="ar"
+            viewBox="0 0 10 10"
+            refX="9"
+            refY="5"
+            markerWidth="10"
+            markerHeight="10"
+            orient="auto-start-reverse"
+            markerUnits="userSpaceOnUse"
+          >
+            <path d="M0 0L10 5L0 10z" fill="context-stroke" />
+          </marker>
+          <pattern id="gd" width="20" height="20" patternUnits="userSpaceOnUse">
+            <circle cx="1" cy="1" r="1.1" style="fill: var(--dot)" />
+          </pattern>
+        </defs>
+        <rect
+          id="gr"
+          x="-20000"
+          y="-20000"
+          width="40000"
+          height="40000"
+          fill="url(#gd)"
+        />
+        <g id="w"></g>
+      </svg>
+    </div>
+    <div class="fl" id="top"><i>✒</i> Digidaw</div>
+    <div class="fl" id="tr">
+      <button id="xp">PNG</button><button id="xs">SVG</button
+      ><button id="xj">JSON</button><button id="xi">Impor</button
+      ><button id="xc">Kosongkan</button><button id="th">◐</button>
+    </div>
+    <div class="fl" id="lp">
+      <button id="up">+ Gambar · Ctrl+V</button>
+      <div id="ps">
+        <input id="q" placeholder="Cari shape…" />
+        <div id="sl"></div>
+      </div>
+      <div id="pv" hidden>
+        <input type="checkbox" id="ltl" />
+        <div id="ic"></div>
+      </div>
+    </div>
+    <div class="fl" id="pp"></div>
+    <div class="fl" id="bt">
+      <button id="t1" class="on" title="V">Pilih</button
+      ><button id="t2" title="H">Geser</button
+      ><button id="t3" title="C">Konektor</button><span class="v"></span
+      ><button id="bu">↶</button><button id="br">↷</button
+      ><span class="v"></span><button id="zo">−</button><span id="zl">100%</span
+      ><button id="zi">+</button><button id="zf">Fit</button
+      ><span class="v"></span><button id="gt" class="on">Grid</button>
+    </div>
 
+    <input type="file" id="fj" accept=".json" hidden /><input
+      type="file"
+      id="fi"
+      accept="image/*"
+      hidden
+    />
+    <div id="ts"></div>
+    <div id="md" hidden>
+      <div class="bx">
+        <div style="color: var(--mu)">
+          Drag di gambar untuk memilih area (misal satu icon), atau pakai utuh.
+        </div>
+        <div id="stg">
+          <img id="pi" alt="" />
+          <div id="sr"></div>
+        </div>
+        <div class="rw">
+          <label><input type="checkbox" id="tr2" /> Transparan-kan putih</label
+          ><label><input type="checkbox" id="rr" /> Sudut rounded</label
+          ><label><input type="checkbox" id="tl2" /> Bingkai</label>
+        </div>
+        <div class="rw">
+          <span class="sp"></span><button id="bc">Batal</button
+          ><button id="bf">Pakai utuh</button
+          ><button id="bx" class="pri">Potong area &amp; pakai</button>
+        </div>
+      </div>
+    </div>
+    <script>
+      const $ = (s) => document.querySelector(s),
+        uid = () => "i" + Math.random().toString(36).slice(2, 9);
+      const AC = "#3b82f6",
+        FS = "Inter,system-ui,-apple-system,Segoe UI,sans-serif",
+        svg = $("#cv"),
+        W = $("#w");
+      let S = { nodes: [], edges: [] },
+        sel = [],
+        selE = null,
+        tool = "sel",
+        V = { x: 60, y: 60, k: 1 },
+        hist = [],
+        fut = [],
+        D = null,
+        H = null,
+        clip = null,
+        icons = [],
+        st = null,
+        GS = true,
+        spc = false;
+      const nd = (i) => S.nodes.find((n) => n.id == i),
+        ed = (i) => S.edges.find((e) => e.id == i);
+      const esc = (s) =>
+        String(s || "").replace(
+          /[&<>"]/g,
+          (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c],
+        );
+      const hex = (c) => (/^#[0-9a-f]{6}$/i.test(c) ? c : "#ffffff");
+      const sn = (v) => (GS ? Math.round(v / 10) * 10 : Math.round(v));
+      function toast(m) {
+        const t = $("#ts");
+        t.textContent = m;
+        t.classList.add("s");
+        clearTimeout(toast.t);
+        toast.t = setTimeout(() => t.classList.remove("s"), 2200);
+      }
+      function snap() {
+        hist.push(JSON.stringify(S));
+        if (hist.length > 80) hist.shift();
+        fut = [];
+      }
+      function undo() {
+        if (!hist.length) return;
+        fut.push(JSON.stringify(S));
+        S = JSON.parse(hist.pop());
+        sel = [];
+        selE = null;
+        draw();
+        panel();
+      }
+      function redo() {
+        if (!fut.length) return;
+        hist.push(JSON.stringify(S));
+        S = JSON.parse(fut.pop());
+        sel = [];
+        selE = null;
+        draw();
+        panel();
+      }
+      /* ---------- shape library ---------- */
+      const R = (w, h, r) =>
+        `M${r} 0H${w - r}A${r} ${r} 0 0 1 ${w} ${r}V${h - r}A${r} ${r} 0 0 1 ${w - r} ${h}H${r}A${r} ${r} 0 0 1 0 ${h - r}V${r}A${r} ${r} 0 0 1 ${r} 0Z`;
+      const Pl = (a) => (w, h) => [
+        "M" + a.map(([x, y]) => `${x * w} ${y * h}`).join("L") + "Z",
+      ];
+      const EL = (w, h) =>
+        `M0 ${h / 2}A${w / 2} ${h / 2} 0 0 1 ${w} ${h / 2}A${w / 2} ${h / 2} 0 0 1 0 ${h / 2}Z`;
+      const RR = (x, y, w, h, r) =>
+        `M${x + r} ${y}H${x + w - r}A${r} ${r} 0 0 1 ${x + w} ${y + r}V${y + h - r}A${r} ${r} 0 0 1 ${x + w - r} ${y + h}H${x + r}A${r} ${r} 0 0 1 ${x} ${y + h - r}V${y + r}A${r} ${r} 0 0 1 ${x + r} ${y}Z`;
+      const CI = (cx, cy, r) =>
+        `M${cx + r} ${cy}A${r} ${r} 0 0 1 ${cx - r} ${cy}A${r} ${r} 0 0 1 ${cx + r} ${cy}Z`;
+      const RP =
+        (n, o = -Math.PI / 2) =>
+        (w, h) => [
+          "M" +
+            Array.from({ length: n }, (_, i) => {
+              const a = o + (i * 2 * Math.PI) / n;
+              return `${w / 2 + (w / 2) * Math.cos(a)} ${h / 2 + (h / 2) * Math.sin(a)}`;
+            }).join("L") +
+            "Z",
+        ];
+      const SH = {
+        rect: ["Persegi", 140, 60, (w, h) => [`M0 0H${w}V${h}H0Z`]],
+        round: ["Rounded", 140, 60, (w, h) => [R(w, h, Math.min(14, h / 2))]],
+        term: ["Terminator", 140, 50, (w, h) => [R(w, h, h / 2)]],
+        ellipse: ["Elips", 120, 70, (w, h) => [EL(w, h)]],
+        diamond: [
+          "Decision",
+          120,
+          80,
+          Pl([
+            [0.5, 0],
+            [1, 0.5],
+            [0.5, 1],
+            [0, 0.5],
+          ]),
+        ],
+        tri: [
+          "Segitiga",
+          80,
+          70,
+          Pl([
+            [0.5, 0],
+            [1, 1],
+            [0, 1],
+          ]),
+        ],
+        hex: [
+          "Preparation",
+          130,
+          60,
+          Pl([
+            [0.2, 0],
+            [0.8, 0],
+            [1, 0.5],
+            [0.8, 1],
+            [0.2, 1],
+            [0, 0.5],
+          ]),
+        ],
+        trap: [
+          "Trapesium",
+          120,
+          60,
+          Pl([
+            [0.15, 0],
+            [0.85, 0],
+            [1, 1],
+            [0, 1],
+          ]),
+        ],
+        para: [
+          "Data",
+          130,
+          60,
+          Pl([
+            [0.2, 0],
+            [1, 0],
+            [0.8, 1],
+            [0, 1],
+          ]),
+        ],
+        manual: [
+          "Manual input",
+          120,
+          60,
+          Pl([
+            [0, 0.2],
+            [1, 0],
+            [1, 1],
+            [0, 1],
+          ]),
+        ],
+        offpage: [
+          "Off-page",
+          60,
+          70,
+          Pl([
+            [0, 0],
+            [1, 0],
+            [1, 0.7],
+            [0.5, 1],
+            [0, 0.7],
+          ]),
+        ],
+        cross: [
+          "Plus",
+          60,
+          60,
+          Pl([
+            [0.33, 0],
+            [0.67, 0],
+            [0.67, 0.33],
+            [1, 0.33],
+            [1, 0.67],
+            [0.67, 0.67],
+            [0.67, 1],
+            [0.33, 1],
+            [0.33, 0.67],
+            [0, 0.67],
+            [0, 0.33],
+            [0.33, 0.33],
+          ]),
+        ],
+        arrR: [
+          "Panah",
+          120,
+          60,
+          Pl([
+            [0, 0.25],
+            [0.6, 0.25],
+            [0.6, 0],
+            [1, 0.5],
+            [0.6, 1],
+            [0.6, 0.75],
+            [0, 0.75],
+          ]),
+        ],
+        arr2: [
+          "Panah ganda",
+          120,
+          60,
+          Pl([
+            [0, 0.5],
+            [0.2, 0],
+            [0.2, 0.3],
+            [0.8, 0.3],
+            [0.8, 0],
+            [1, 0.5],
+            [0.8, 1],
+            [0.8, 0.7],
+            [0.2, 0.7],
+            [0.2, 1],
+          ]),
+        ],
+        step: [
+          "Process arrow",
+          130,
+          60,
+          Pl([
+            [0, 0],
+            [0.8, 0],
+            [1, 0.5],
+            [0.8, 1],
+            [0, 1],
+          ]),
+        ],
+        cube: [
+          "Kubus",
+          90,
+          80,
+          (w, h) => {
+            const d = Math.min(20, w / 4, h / 4);
+            return [
+              `M0 ${d}L${d} 0H${w}V${h - d}L${w - d} ${h}H0Z`,
+              `M0 ${d}H${w - d}V${h}M${w - d} ${d}L${w} 0`,
+            ];
+          },
+        ],
+        cyl: [
+          "Database",
+          80,
+          90,
+          (w, h) => {
+            const r = Math.min(14, h / 4);
+            return [
+              `M0 ${r}V${h - r}A${w / 2} ${r} 0 0 0 ${w} ${h - r}V${r}A${w / 2} ${r} 0 0 0 0 ${r}Z`,
+              `M0 ${r}A${w / 2} ${r} 0 0 0 ${w} ${r}`,
+            ];
+          },
+        ],
+        cloud: [
+          "Cloud",
+          130,
+          80,
+          (w, h) => [
+            `M${0.25 * w} ${0.8 * h}C${-0.05 * w} ${0.8 * h},${-0.05 * w} ${0.4 * h},${0.2 * w} ${0.4 * h}C${0.15 * w} ${0.1 * h},${0.45 * w} ${0.05 * h},${0.5 * w} ${0.25 * h}C${0.6 * w} ${-0.05 * h},${0.95 * w} ${0.1 * h},${0.8 * w} ${0.4 * h}C${1.05 * w} ${0.4 * h},${1.05 * w} ${0.8 * h},${0.8 * w} ${0.8 * h}Z`,
+          ],
+        ],
+        note: [
+          "Catatan",
+          100,
+          70,
+          (w, h) => {
+            const f = Math.min(18, w / 4);
+            return [`M0 0H${w - f}L${w} ${f}V${h}H0Z`, `M${w - f} 0V${f}H${w}`];
+          },
+        ],
+        callout: [
+          "Callout",
+          120,
+          70,
+          (w, h) => [
+            `M0 0H${w}V${h * 0.75}H${w * 0.4}L${w * 0.2} ${h}V${h * 0.75}H0Z`,
+          ],
+        ],
+        doc: [
+          "Dokumen",
+          120,
+          70,
+          (w, h) => [
+            `M0 0H${w}V${h * 0.85}C${w * 0.75} ${h * 0.65},${w * 0.25} ${h * 1.05},0 ${h * 0.85}Z`,
+          ],
+        ],
+        predef: [
+          "Predefined",
+          130,
+          60,
+          (w, h) => {
+            const a = Math.min(14, w * 0.12);
+            return [`M0 0H${w}V${h}H0Z`, `M${a} 0V${h}M${w - a} 0V${h}`];
+          },
+        ],
+        internal: [
+          "Internal storage",
+          100,
+          70,
+          (w, h) => [`M0 0H${w}V${h}H0Z`, `M0 14H${w}M14 0V${h}`],
+        ],
+        delay: [
+          "Delay",
+          110,
+          60,
+          (w, h) => [`M0 0H${w / 2}A${w / 2} ${h / 2} 0 0 1 ${w / 2} ${h}H0Z`],
+        ],
+        display: [
+          "Display",
+          120,
+          60,
+          (w, h) => [
+            `M0 ${h / 2}L${w * 0.15} 0H${w * 0.8}A${w * 0.2} ${h / 2} 0 0 1 ${w * 0.8} ${h}H${w * 0.15}Z`,
+          ],
+        ],
+        tape: [
+          "Tape",
+          120,
+          60,
+          (w, h) => [
+            `M0 ${h * 0.1}C${w * 0.25} ${-0.1 * h},${w * 0.75} ${0.3 * h},${w} ${h * 0.1}V${h * 0.9}C${w * 0.75} ${1.1 * h},${w * 0.25} ${0.7 * h},0 ${h * 0.9}Z`,
+          ],
+        ],
+        sum: [
+          "Summing",
+          50,
+          50,
+          (w, h) => [
+            EL(w, h),
+            `M${w * 0.146} ${h * 0.146}L${w * 0.854} ${h * 0.854}M${w * 0.854} ${h * 0.146}L${w * 0.146} ${h * 0.854}`,
+          ],
+        ],
+        actor: [
+          "Actor",
+          40,
+          70,
+          (w, h) => {
+            const r = h * 0.13,
+              x = w / 2;
+            return [
+              `M${x + r} ${r + 2}A${r} ${r} 0 1 1 ${x - r} ${r + 2}A${r} ${r} 0 1 1 ${x + r} ${r + 2}Z`,
+              `M${x} ${2 * r + 2}V${h * 0.65}M${w * 0.1} ${h * 0.4}H${w * 0.9}M${x} ${h * 0.65}L${w * 0.15} ${h}M${x} ${h * 0.65}L${w * 0.85} ${h}`,
+            ];
+          },
+        ],
+        srv: [
+          "Server",
+          60,
+          70,
+          (w, h) => [
+            RR(0, 0, w, h, 6),
+            `M0 ${h / 3}H${w}M0 ${(2 * h) / 3}H${w}` +
+              [1, 3, 5].map((i) => CI(w * 0.18, (h * i) / 6, 2)).join("") +
+              [1, 3, 5]
+                .map((i) => `M${w * 0.4} ${(h * i) / 6}H${w * 0.8}`)
+                .join(""),
+          ],
+          { text: "Server" },
+        ],
+        fw: [
+          "Firewall",
+          70,
+          70,
+          (w, h) => {
+            const a = h / 3;
+            return [
+              RR(0, 0, w, h, 3),
+              `M0 ${a}H${w}M0 ${2 * a}H${w}M${w / 2} 0V${a}M${w * 0.25} ${a}V${2 * a}M${w * 0.75} ${a}V${2 * a}M${w / 2} ${2 * a}V${h}`,
+            ];
+          },
+          { fill: "#fff1ef", stroke: "#ea580c", text: "Firewall" },
+        ],
+        rtr: [
+          "Router",
+          70,
+          50,
+          (w, h) => [
+            RR(0, h * 0.4, w, h * 0.6, 8),
+            `M${w * 0.25} ${h * 0.4}L${w * 0.15} 0M${w * 0.75} ${h * 0.4}L${w * 0.85} 0` +
+              CI(w * 0.25, h * 0.7, 2) +
+              CI(w * 0.4, h * 0.7, 2) +
+              `M${w * 0.6} ${h * 0.7}H${w * 0.85}`,
+          ],
+          { text: "Router" },
+        ],
+        sw: [
+          "Switch",
+          80,
+          40,
+          (w, h) => [
+            RR(0, 0, w, h, 5),
+            [0, 1, 2, 3, 4]
+              .map((i) => {
+                const x = w * (0.1 + i * 0.17);
+                return `M${x} ${h * 0.3}h${w * 0.1}v${h * 0.4}h${-w * 0.1}Z`;
+              })
+              .join(""),
+          ],
+          { text: "Switch" },
+        ],
+        pc: [
+          "PC",
+          70,
+          70,
+          (w, h) => [
+            RR(0, 0, w, h * 0.68, 5),
+            `M${w * 0.4} ${h * 0.68}V${h * 0.88}M${w * 0.25} ${h * 0.88}H${w * 0.75}`,
+          ],
+          { text: "PC" },
+        ],
+        lap: [
+          "Laptop",
+          80,
+          60,
+          (w, h) => [
+            RR(w * 0.12, 0, w * 0.76, h * 0.72, 4),
+            `M0 ${h * 0.82}H${w}L${w * 0.92} ${h}H${w * 0.08}Z`,
+          ],
+          { text: "Laptop" },
+        ],
+        mob: [
+          "Mobile",
+          40,
+          70,
+          (w, h) => [
+            RR(0, 0, w, h, 7),
+            `M${w * 0.3} ${h * 0.9}H${w * 0.7}M${w * 0.38} ${h * 0.08}H${w * 0.62}`,
+          ],
+          { text: "Mobile" },
+        ],
+        usr: [
+          "User",
+          50,
+          60,
+          (w, h) => [
+            CI(w / 2, h * 0.28, h * 0.2),
+            `M${w * 0.1} ${h}C${w * 0.1} ${h * 0.58},${w * 0.9} ${h * 0.58},${w * 0.9} ${h}Z`,
+          ],
+          { text: "User" },
+        ],
+        atk: [
+          "Attacker",
+          60,
+          70,
+          (w, h) => [
+            `M0 ${h}V${h * 0.5}A${w / 2} ${h * 0.5} 0 0 1 ${w} ${h * 0.5}V${h}Z`,
+            `M${w * 0.22} ${h * 0.42}H${w * 0.78}V${h * 0.66}Q${w / 2} ${h * 0.82} ${w * 0.22} ${h * 0.66}Z` +
+              CI(w * 0.38, h * 0.54, 2) +
+              CI(w * 0.62, h * 0.54, 2),
+          ],
+          { fill: "#fee2e2", stroke: "#dc2626", text: "Attacker" },
+        ],
+        bug: [
+          "Malware",
+          60,
+          70,
+          (w, h) => [
+            `M${w * 0.22} ${h * 0.58}A${w * 0.28} ${h * 0.34} 0 0 1 ${w * 0.78} ${h * 0.58}A${w * 0.28} ${h * 0.34} 0 0 1 ${w * 0.22} ${h * 0.58}Z`,
+            `M${w * 0.22} ${h * 0.45}L0 ${h * 0.35}M${w * 0.22} ${h * 0.6}H0M${w * 0.22} ${h * 0.75}L0 ${h * 0.88}M${w * 0.78} ${h * 0.45}L${w} ${h * 0.35}M${w * 0.78} ${h * 0.6}H${w}M${w * 0.78} ${h * 0.75}L${w} ${h * 0.88}M${w * 0.42} ${h * 0.25}L${w * 0.35} 0M${w * 0.58} ${h * 0.25}L${w * 0.65} 0M${w / 2} ${h * 0.25}V${h * 0.92}`,
+          ],
+          { fill: "#fee2e2", stroke: "#dc2626", text: "Malware" },
+        ],
+        lck: [
+          "Lock",
+          50,
+          60,
+          (w, h) => [
+            RR(0, h * 0.42, w, h * 0.58, 5),
+            `M${w * 0.22} ${h * 0.42}V${h * 0.3}A${w * 0.28} ${h * 0.28} 0 0 1 ${w * 0.78} ${h * 0.3}V${h * 0.42}` +
+              CI(w / 2, h * 0.65, 3),
+          ],
+          { text: "Lock" },
+        ],
+        shd: [
+          "Shield",
+          56,
+          66,
+          (w, h) => [
+            `M${w / 2} 0L${w} ${h * 0.15}V${h * 0.5}C${w} ${h * 0.78},${w * 0.7} ${h * 0.92},${w / 2} ${h}C${w * 0.3} ${h * 0.92},0 ${h * 0.78},0 ${h * 0.5}V${h * 0.15}Z`,
+            `M${w * 0.3} ${h * 0.5}L${w * 0.45} ${h * 0.64}L${w * 0.72} ${h * 0.34}`,
+          ],
+          { fill: "#dcfce7", stroke: "#16a34a", text: "EDR / AV" },
+        ],
+        mail: [
+          "Email",
+          70,
+          50,
+          (w, h) => [RR(0, 0, w, h, 4), `M0 0L${w / 2} ${h * 0.58}L${w} 0`],
+          { text: "Email" },
+        ],
+        wifi: [
+          "WiFi / AP",
+          60,
+          60,
+          (w, h) => [
+            CI(w / 2, h * 0.85, 3),
+            `M${w * 0.32} ${h * 0.74}A${w * 0.25} ${w * 0.25} 0 0 1 ${w * 0.68} ${h * 0.74}M${w * 0.2} ${h * 0.58}A${w * 0.42} ${w * 0.42} 0 0 1 ${w * 0.8} ${h * 0.58}M${w * 0.08} ${h * 0.42}A${w * 0.6} ${w * 0.6} 0 0 1 ${w * 0.92} ${h * 0.42}`,
+          ],
+          { text: "WiFi / AP" },
+        ],
+        cli: [
+          "Terminal",
+          90,
+          60,
+          (w, h) => [
+            RR(0, 0, w, h, 5),
+            `M0 ${h * 0.22}H${w}M${w * 0.15} ${h * 0.4}L${w * 0.3} ${h * 0.55}L${w * 0.15} ${h * 0.7}M${w * 0.42} ${h * 0.72}H${w * 0.62}`,
+          ],
+          { text: "Terminal" },
+        ],
+        globe: [
+          "Internet",
+          70,
+          70,
+          (w, h) => [
+            EL(w, h),
+            `M${w / 2} 0C${w * 0.15} ${h * 0.3},${w * 0.15} ${h * 0.7},${w / 2} ${h}M${w / 2} 0C${w * 0.85} ${h * 0.3},${w * 0.85} ${h * 0.7},${w / 2} ${h}M0 ${h / 2}H${w}M${w * 0.08} ${h * 0.25}H${w * 0.92}M${w * 0.08} ${h * 0.75}H${w * 0.92}`,
+          ],
+          { fill: "#e0f2fe", stroke: "#0284c7", text: "Internet" },
+        ],
+        heart: [
+          "Hati",
+          70,
+          62,
+          (w, h) => [
+            `M${w / 2} ${h}C${-w * 0.2} ${h * 0.45},${w * 0.1} ${-h * 0.1},${w / 2} ${h * 0.28}C${w * 0.9} ${-h * 0.1},${w * 1.2} ${h * 0.45},${w / 2} ${h}Z`,
+          ],
+        ],
+        chev: [
+          "Chevron",
+          100,
+          60,
+          Pl([
+            [0, 0],
+            [0.7, 0],
+            [1, 0.5],
+            [0.7, 1],
+            [0, 1],
+            [0.3, 0.5],
+          ]),
+        ],
+        bolt: [
+          "Petir",
+          50,
+          70,
+          Pl([
+            [0.55, 0],
+            [0.2, 0.55],
+            [0.45, 0.55],
+            [0.35, 1],
+            [0.8, 0.4],
+            [0.55, 0.4],
+          ]),
+        ],
+        bubble: [
+          "Bubble",
+          110,
+          70,
+          (w, h) => [
+            `M${w * 0.1} 0H${w * 0.9}Q${w} 0 ${w} ${h * 0.1}V${h * 0.6}Q${w} ${h * 0.7} ${w * 0.9} ${h * 0.7}H${w * 0.4}L${w * 0.2} ${h}V${h * 0.7}H${w * 0.1}Q0 ${h * 0.7} 0 ${h * 0.6}V${h * 0.1}Q0 0 ${w * 0.1} 0Z`,
+          ],
+        ],
+        ring: [
+          "Ring",
+          60,
+          60,
+          (w, h) => [
+            EL(w, h),
+            `M${w * 0.25} ${h / 2}A${w / 4} ${h / 4} 0 0 1 ${w * 0.75} ${h / 2}A${w / 4} ${h / 4} 0 0 1 ${w * 0.25} ${h / 2}Z`,
+          ],
+        ],
+        or: [
+          "Or",
+          50,
+          50,
+          (w, h) => [EL(w, h), `M0 ${h / 2}H${w}M${w / 2} 0V${h}`],
+        ],
+        mdoc: [
+          "Multi-dokumen",
+          120,
+          70,
+          (w, h) => [
+            `M0 ${h * 0.2}H${w * 0.88}V${h * 0.82}C${w * 0.66} ${h * 0.65},${w * 0.22} ${h},0 ${h * 0.82}Z`,
+            `M${w * 0.06} ${h * 0.2}V${h * 0.1}H${w * 0.94}V${h * 0.72}M${w * 0.12} ${h * 0.1}V0H${w}V${h * 0.62}`,
+          ],
+        ],
+        bot: [
+          "LLM / Bot",
+          60,
+          64,
+          (w, h) => [
+            RR(w * 0.08, h * 0.25, w * 0.84, h * 0.7, 9),
+            `M${w / 2} ${h * 0.25}V${h * 0.1}` +
+              CI(w / 2, h * 0.07, 3) +
+              CI(w * 0.32, h * 0.55, 4) +
+              CI(w * 0.68, h * 0.55, 4) +
+              `M${w * 0.35} ${h * 0.8}H${w * 0.65}`,
+          ],
+          { text: "LLM" },
+        ],
+        vpn: [
+          "VPN Tunnel",
+          110,
+          44,
+          (w, h) => {
+            const r = w * 0.1;
+            return [
+              `M${r} 0H${w - r}A${r} ${h / 2} 0 0 1 ${w - r} ${h}H${r}A${r} ${h / 2} 0 0 1 ${r} 0Z`,
+              `M${r} 0A${r} ${h / 2} 0 0 0 ${r} ${h}`,
+            ];
+          },
+          { text: "VPN" },
+        ],
+        antenna: [
+          "Antena",
+          50,
+          70,
+          (w, h) => [
+            `M${w / 2} ${h * 0.25}L${w * 0.8} ${h}H${w * 0.2}Z`,
+            `M${w * 0.38} ${h * 0.55}H${w * 0.62}M${w * 0.3} ${h * 0.8}H${w * 0.7}` +
+              CI(w / 2, h * 0.12, 3),
+          ],
+          { text: "Antena" },
+        ],
+        hdd: [
+          "Storage / NAS",
+          70,
+          50,
+          (w, h) => [
+            RR(0, 0, w, h, 6),
+            `M0 ${h * 0.65}H${w}` +
+              CI(w * 0.85, h * 0.82, 2) +
+              `M${w * 0.1} ${h * 0.82}H${w * 0.45}`,
+          ],
+          { text: "Storage" },
+        ],
+        vm: [
+          "VM",
+          70,
+          60,
+          (w, h) => [
+            RR(0, 0, w, h, 6),
+            RR(w * 0.18, h * 0.22, w * 0.64, h * 0.56, 3),
+          ],
+          { text: "VM" },
+        ],
+        cam: [
+          "CCTV",
+          70,
+          50,
+          (w, h) => [
+            RR(0, h * 0.15, w * 0.72, h * 0.6, 6),
+            CI(w * 0.36, h * 0.45, w * 0.12) +
+              `M${w * 0.72} ${h * 0.35}L${w} ${h * 0.15}V${h * 0.75}L${w * 0.72} ${h * 0.55}`,
+          ],
+          { text: "CCTV" },
+        ],
+        group: [
+          "Group",
+          70,
+          60,
+          (w, h) => [
+            CI(w * 0.35, h * 0.28, h * 0.16) + CI(w * 0.68, h * 0.3, h * 0.14),
+            `M0 ${h}C0 ${h * 0.58},${w * 0.7} ${h * 0.58},${w * 0.7} ${h}Z` +
+              `M${w * 0.55} ${h * 0.62}C${w * 0.85} ${h * 0.5},${w} ${h * 0.7},${w} ${h}H${w * 0.8}`,
+          ],
+          { text: "Users" },
+        ],
+        browser: [
+          "Web / Browser",
+          80,
+          60,
+          (w, h) => [
+            RR(0, 0, w, h, 6),
+            `M0 ${h * 0.22}H${w}` +
+              CI(w * 0.08, h * 0.11, 2) +
+              CI(w * 0.17, h * 0.11, 2),
+          ],
+          { text: "Web" },
+        ],
+        dns: [
+          "DNS",
+          90,
+          70,
+          (w, h) => [
+            RR(w * 0.35, 0, w * 0.3, h * 0.3, 3),
+            `M${w / 2} ${h * 0.3}V${h * 0.5}M${w * 0.15} ${h * 0.5}H${w * 0.85}M${w * 0.15} ${h * 0.5}V${h * 0.65}M${w * 0.5} ${h * 0.5}V${h * 0.65}M${w * 0.85} ${h * 0.5}V${h * 0.65}` +
+              RR(0, h * 0.65, w * 0.3, h * 0.35, 3) +
+              RR(w * 0.35, h * 0.65, w * 0.3, h * 0.35, 3) +
+              RR(w * 0.7, h * 0.65, w * 0.3, h * 0.35, 3),
+          ],
+          { text: "DNS" },
+        ],
+        cdn: [
+          "CDN / Mesh",
+          70,
+          70,
+          (w, h) => [
+            CI(w / 2, h / 2, w * 0.16),
+            [0, 1, 2, 3, 4, 5]
+              .map((i) => {
+                const a = (i * Math.PI) / 3,
+                  x = w / 2 + w * 0.38 * Math.cos(a),
+                  y = h / 2 + h * 0.38 * Math.sin(a);
+                return (
+                  `M${w / 2 + w * 0.16 * Math.cos(a)} ${h / 2 + h * 0.16 * Math.sin(a)}L${x} ${y}` +
+                  CI(x, y, w * 0.07)
+                );
+              })
+              .join(""),
+          ],
+          { text: "CDN" },
+        ],
+        dbc: [
+          "DB Cluster",
+          80,
+          100,
+          (w, h) => {
+            const r = Math.min(14, h / 5);
+            return [
+              `M0 ${r}V${h - r}A${w / 2} ${r} 0 0 0 ${w} ${h - r}V${r}A${w / 2} ${r} 0 0 0 0 ${r}Z`,
+              `M0 ${r}A${w / 2} ${r} 0 0 0 ${w} ${r}M0 ${h * 0.4}A${w / 2} ${r} 0 0 0 ${w} ${h * 0.4}M0 ${h * 0.65}A${w / 2} ${r} 0 0 0 ${w} ${h * 0.65}`,
+            ];
+          },
+          { text: "DB Cluster" },
+        ],
+        k8s: [
+          "Kubernetes",
+          70,
+          70,
+          (w, h) => [
+            RP(7)(w, h)[0],
+            CI(w / 2, h / 2, w * 0.12) +
+              [0, 1, 2, 3, 4, 5, 6]
+                .map((i) => {
+                  const a = -Math.PI / 2 + (i * 2 * Math.PI) / 7;
+                  return `M${w / 2 + w * 0.12 * Math.cos(a)} ${h / 2 + h * 0.12 * Math.sin(a)}L${w / 2 + w * 0.32 * Math.cos(a)} ${h / 2 + h * 0.32 * Math.sin(a)}`;
+                })
+                .join(""),
+          ],
+          { fill: "#e8f0ff", stroke: "#3b82f6", text: "K8s" },
+        ],
+        fn: [
+          "Function",
+          60,
+          60,
+          (w, h) => [
+            RR(0, 0, w, h, 10),
+            `M${w * 0.3} ${h * 0.22}L${w * 0.5} ${h * 0.5}L${w * 0.7} ${h * 0.82}M${w * 0.5} ${h * 0.5}L${w * 0.28} ${h * 0.82}`,
+          ],
+          { text: "Function" },
+        ],
+        bucket: [
+          "Object Storage",
+          60,
+          70,
+          (w, h) => {
+            const r = h * 0.12;
+            return [
+              `M0 ${r}A${w / 2} ${r} 0 0 1 ${w} ${r}L${w * 0.88} ${h - r}A${w * 0.38} ${r} 0 0 1 ${w * 0.12} ${h - r}Z`,
+              `M0 ${r}A${w / 2} ${r} 0 0 0 ${w} ${r}`,
+            ];
+          },
+          { text: "Bucket" },
+        ],
+        unlck: [
+          "Unlocked",
+          50,
+          60,
+          (w, h) => [
+            RR(0, h * 0.42, w, h * 0.58, 5),
+            `M${w * 0.22} ${h * 0.42}V${h * 0.28}A${w * 0.28} ${h * 0.26} 0 0 1 ${w * 0.78} ${h * 0.28}V${h * 0.34}` +
+              CI(w / 2, h * 0.65, 3),
+          ],
+          { fill: "#fee2e2", stroke: "#dc2626", text: "Unlocked" },
+        ],
+        cert: [
+          "Certificate",
+          70,
+          60,
+          (w, h) => [
+            RR(0, 0, w, h * 0.75, 4),
+            `M${w * 0.15} ${h * 0.2}H${w * 0.85}M${w * 0.15} ${h * 0.38}H${w * 0.55}` +
+              CI(w * 0.72, h * 0.55, h * 0.1) +
+              `M${w * 0.66} ${h * 0.62}L${w * 0.62} ${h}L${w * 0.72} ${h * 0.92}L${w * 0.82} ${h}L${w * 0.78} ${h * 0.62}`,
+          ],
+          { text: "TLS Cert" },
+        ],
+        mfa: [
+          "MFA / OTP",
+          50,
+          70,
+          (w, h) => [
+            RR(w * 0.1, 0, w * 0.8, h, 7),
+            `M${w * 0.3} ${h * 0.5}L${w * 0.45} ${h * 0.62}L${w * 0.7} ${h * 0.36}`,
+          ],
+          { fill: "#dcfce7", stroke: "#16a34a", text: "MFA" },
+        ],
+        pwd: [
+          "Password",
+          90,
+          45,
+          (w, h) => [
+            RR(0, h * 0.15, w, h * 0.7, 6),
+            CI(w * 0.25, h / 2, 2.5) +
+              CI(w * 0.4, h / 2, 2.5) +
+              CI(w * 0.55, h / 2, 2.5) +
+              CI(w * 0.7, h / 2, 2.5),
+          ],
+          { text: "Password" },
+        ],
+        eye: [
+          "IDS / Monitoring",
+          80,
+          50,
+          (w, h) => [
+            `M0 ${h / 2}Q${w / 2} ${-h * 0.45} ${w} ${h / 2}Q${w / 2} ${h * 1.45} 0 ${h / 2}Z`,
+            CI(w / 2, h / 2, h * 0.18),
+          ],
+          { text: "IDS" },
+        ],
+        target: [
+          "Target",
+          60,
+          60,
+          (w, h) => [
+            CI(w / 2, h / 2, w / 2 - 1),
+            CI(w / 2, h / 2, w * 0.3) +
+              CI(w / 2, h / 2, w * 0.1) +
+              `M${w / 2} 0V${h * 0.2}M${w / 2} ${h * 0.8}V${h}M0 ${h / 2}H${w * 0.2}M${w * 0.8} ${h / 2}H${w}`,
+          ],
+          { fill: "#fee2e2", stroke: "#dc2626", text: "Target" },
+        ],
+        virus: [
+          "Virus",
+          64,
+          64,
+          (w, h) => [
+            CI(w / 2, h / 2, w * 0.26),
+            [0, 1, 2, 3, 4, 5, 6, 7]
+              .map((i) => {
+                const a = (i * Math.PI) / 4,
+                  x1 = w / 2 + w * 0.26 * Math.cos(a),
+                  y1 = h / 2 + h * 0.26 * Math.sin(a),
+                  x2 = w / 2 + w * 0.4 * Math.cos(a),
+                  y2 = h / 2 + h * 0.4 * Math.sin(a);
+                return `M${x1} ${y1}L${x2} ${y2}` + CI(x2, y2, 2.5);
+              })
+              .join(""),
+          ],
+          { fill: "#fee2e2", stroke: "#dc2626", text: "Virus" },
+        ],
+        skull: [
+          "Skull",
+          60,
+          70,
+          (w, h) => [
+            `M${w * 0.12} ${h * 0.55}A${w * 0.38} ${h * 0.42} 0 1 1 ${w * 0.88} ${h * 0.55}V${h * 0.78}H${w * 0.12}Z`,
+            CI(w * 0.35, h * 0.5, w * 0.08) +
+              CI(w * 0.65, h * 0.5, w * 0.08) +
+              `M${w * 0.38} ${h * 0.78}V${h * 0.95}M${w * 0.5} ${h * 0.78}V${h * 0.95}M${w * 0.62} ${h * 0.78}V${h * 0.95}`,
+          ],
+          { fill: "#fee2e2", stroke: "#dc2626", text: "Compromised" },
+        ],
+        cloudup: [
+          "Cloud upload",
+          130,
+          80,
+          (w, h) => [
+            SH.cloud[3](w, h)[0],
+            `M${w * 0.5} ${h * 0.72}V${h * 0.42}M${w * 0.4} ${h * 0.52}L${w * 0.5} ${h * 0.4}L${w * 0.6} ${h * 0.52}`,
+          ],
+          { fill: "#e0f2fe", stroke: "#0284c7", text: "Cloud" },
+        ],
+        sat: [
+          "Satelit",
+          70,
+          60,
+          (w, h) => [
+            RR(w * 0.36, h * 0.36, w * 0.28, h * 0.28, 3),
+            `M${w * 0.36} ${h * 0.5}H${w * 0.2}M${w * 0.64} ${h * 0.5}H${w * 0.8}` +
+              RR(0, h * 0.38, w * 0.2, h * 0.24, 2) +
+              RR(w * 0.8, h * 0.38, w * 0.2, h * 0.24, 2) +
+              `M${w * 0.5} ${h * 0.36}V${h * 0.2}` +
+              CI(w / 2, h * 0.14, 3),
+          ],
+          { text: "Satelit" },
+        ],
+        prn: [
+          "Printer",
+          60,
+          60,
+          (w, h) => [
+            RR(0, h * 0.35, w, h * 0.4, 5),
+            RR(w * 0.2, 0, w * 0.6, h * 0.35, 2) +
+              RR(w * 0.2, h * 0.6, w * 0.6, h * 0.4, 2),
+          ],
+          { text: "Printer" },
+        ],
+        tab: [
+          "Tablet",
+          80,
+          56,
+          (w, h) => [RR(0, 0, w, h, 8), CI(w * 0.94, h / 2, 2.5)],
+          { text: "Tablet" },
+        ],
+        kbd: [
+          "Keyboard",
+          80,
+          40,
+          (w, h) => [
+            RR(0, 0, w, h, 5),
+            `M${w * 0.1} ${h * 0.35}H${w * 0.9}M${w * 0.1} ${h * 0.55}H${w * 0.9}M${w * 0.25} ${h * 0.78}H${w * 0.75}`,
+          ],
+          { text: "Keyboard" },
+        ],
+        usb: [
+          "USB",
+          70,
+          40,
+          (w, h) => [
+            RR(w * 0.3, h * 0.2, w * 0.7, h * 0.6, 4),
+            RR(0, h * 0.35, w * 0.3, h * 0.3, 2) +
+              `M${w * 0.5} ${h * 0.2}V${h * 0.8}`,
+          ],
+          { text: "USB" },
+        ],
+        badge: [
+          "ID Badge",
+          50,
+          70,
+          (w, h) => [
+            RR(0, 0, w, h, 6),
+            RR(w * 0.36, h * 0.06, w * 0.28, h * 0.07, 2) +
+              CI(w / 2, h * 0.4, h * 0.14) +
+              `M${w * 0.25} ${h * 0.85}C${w * 0.25} ${h * 0.62},${w * 0.75} ${h * 0.62},${w * 0.75} ${h * 0.85}`,
+          ],
+          { text: "Badge" },
+        ],
+        gear: [
+          "Gear",
+          60,
+          60,
+          (w, h) => {
+            const q = [];
+            for (let i = 0; i < 32; i++) {
+              const a = -Math.PI / 2 + (i * Math.PI) / 16,
+                r = i % 4 < 2 ? 0.5 : 0.38;
+              q.push(
+                `${w * (0.5 + r * Math.cos(a))} ${h * (0.5 + r * Math.sin(a))}`,
+              );
+            }
+            return ["M" + q.join("L") + "Z", CI(w / 2, h / 2, w * 0.14)];
+          },
+          { text: "Config" },
+        ],
+        clock: [
+          "Jadwal / Cron",
+          60,
+          60,
+          (w, h) => [
+            CI(w / 2, h / 2, w / 2 - 1),
+            `M${w / 2} ${h * 0.2}V${h / 2}L${w * 0.7} ${h * 0.62}`,
+          ],
+          { text: "Cron" },
+        ],
+        cal: [
+          "Calendar",
+          60,
+          60,
+          (w, h) => [
+            RR(0, h * 0.1, w, h * 0.9, 5),
+            `M0 ${h * 0.35}H${w}M${w * 0.28} 0V${h * 0.2}M${w * 0.72} 0V${h * 0.2}M${w * 0.2} ${h * 0.55}h${w * 0.12}M${w * 0.44} ${h * 0.55}h${w * 0.12}M${w * 0.68} ${h * 0.55}h${w * 0.12}M${w * 0.2} ${h * 0.75}h${w * 0.12}M${w * 0.44} ${h * 0.75}h${w * 0.12}`,
+          ],
+          { text: "Calendar" },
+        ],
+        chart: [
+          "Metrics",
+          70,
+          60,
+          (w, h) => [
+            RR(0, 0, w, h, 5),
+            `M${w * 0.18} ${h * 0.8}V${h * 0.55}H${w * 0.3}V${h * 0.8}M${w * 0.44} ${h * 0.8}V${h * 0.3}H${w * 0.56}V${h * 0.8}M${w * 0.7} ${h * 0.8}V${h * 0.45}H${w * 0.82}V${h * 0.8}`,
+          ],
+          { text: "Metrics" },
+        ],
+        pie: [
+          "Pie chart",
+          60,
+          60,
+          (w, h) => [
+            CI(w / 2, h / 2, w / 2 - 1),
+            `M${w / 2} ${h / 2}V1M${w / 2} ${h / 2}L${w * 0.85} ${h * 0.75}`,
+          ],
+          { text: "Report" },
+        ],
+        pin: [
+          "Lokasi",
+          44,
+          60,
+          (w, h) => [
+            `M${w / 2} ${h}L${w * 0.1} ${h * 0.45}A${w * 0.45} ${h * 0.4} 0 1 1 ${w * 0.9} ${h * 0.45}Z`,
+            CI(w / 2, h * 0.38, w * 0.14),
+          ],
+          { text: "Lokasi" },
+        ],
+        rack: [
+          "Rack",
+          60,
+          110,
+          (w, h) => [
+            RR(0, 0, w, h, 4),
+            [1, 2, 3, 4].map((i) => `M0 ${(h * i) / 5}H${w}`).join("") +
+              [0, 1, 2, 3, 4]
+                .map(
+                  (i) =>
+                    CI(w * 0.15, (h * (i + 0.5)) / 5, 2) +
+                    `M${w * 0.35} ${(h * (i + 0.5)) / 5}H${w * 0.8}`,
+                )
+                .join(""),
+          ],
+          { text: "Rack" },
+        ],
+        git: [
+          "Git / Repo",
+          50,
+          70,
+          (w, h) => [
+            CI(w * 0.25, h * 0.15, w * 0.09) +
+              CI(w * 0.25, h * 0.85, w * 0.09) +
+              CI(w * 0.75, h * 0.5, w * 0.09),
+            `M${w * 0.25} ${h * 0.24}V${h * 0.76}M${w * 0.25} ${h * 0.6}C${w * 0.25} ${h * 0.5},${w * 0.45} ${h * 0.5},${w * 0.66} ${h * 0.5}`,
+          ],
+          { text: "Git" },
+        ],
+        ok: [
+          "OK",
+          40,
+          40,
+          (w, h) => [
+            CI(w / 2, h / 2, w / 2 - 1),
+            `M${w * 0.28} ${h * 0.5}L${w * 0.44} ${h * 0.66}L${w * 0.74} ${h * 0.34}`,
+          ],
+          { fill: "#dcfce7", stroke: "#16a34a" },
+        ],
+        no: [
+          "Gagal",
+          40,
+          40,
+          (w, h) => [
+            CI(w / 2, h / 2, w / 2 - 1),
+            `M${w * 0.32} ${h * 0.32}L${w * 0.68} ${h * 0.68}M${w * 0.68} ${h * 0.32}L${w * 0.32} ${h * 0.68}`,
+          ],
+          { fill: "#fee2e2", stroke: "#dc2626" },
+        ],
+        info: [
+          "Info",
+          40,
+          40,
+          (w, h) => [
+            CI(w / 2, h / 2, w / 2 - 1),
+            `M${w / 2} ${h * 0.45}V${h * 0.72}` + CI(w / 2, h * 0.3, 1.5),
+          ],
+          { fill: "#e0f2fe", stroke: "#0284c7" },
+        ],
+        square: ["Kotak", 70, 70, (w, h) => [`M0 0H${w}V${h}H0Z`]],
+        circle: ["Lingkaran", 70, 70, (w, h) => [EL(w, h)]],
+        conn: ["Konektor", 36, 36, (w, h) => [EL(w, h)]],
+        pent: [
+          "Pentagon",
+          80,
+          76,
+          Pl([
+            [0.5, 0],
+            [1, 0.38],
+            [0.81, 1],
+            [0.19, 1],
+            [0, 0.38],
+          ]),
+        ],
+        oct: [
+          "Oktagon",
+          80,
+          80,
+          Pl([
+            [0.3, 0],
+            [0.7, 0],
+            [1, 0.3],
+            [1, 0.7],
+            [0.7, 1],
+            [0.3, 1],
+            [0, 0.7],
+            [0, 0.3],
+          ]),
+        ],
+        star: [
+          "Bintang",
+          80,
+          76,
+          (w, h) => [
+            "M" +
+              Array.from({ length: 10 }, (_, i) => {
+                const a = -Math.PI / 2 + (i * Math.PI) / 5,
+                  r = i % 2 ? 0.2 : 0.5;
+                return `${w * (0.5 + r * Math.cos(a))} ${h * (0.5 + r * Math.sin(a))}`;
+              }).join("L") +
+              "Z",
+          ],
+        ],
+        brace: [
+          "Kurung kurawal",
+          30,
+          80,
+          (w, h) => [
+            `M${w} 0Q${w * 0.5} 0 ${w * 0.5} ${h * 0.25}V${h * 0.4}Q${w * 0.5} ${h * 0.5} 0 ${h * 0.5}Q${w * 0.5} ${h * 0.5} ${w * 0.5} ${h * 0.6}V${h * 0.75}Q${w * 0.5} ${h} ${w} ${h}`,
+          ],
+          { fill: "none" },
+        ],
+        bracket: [
+          "Anotasi",
+          30,
+          80,
+          (w, h) => [`M${w} 0H0V${h}H${w}`],
+          { fill: "none" },
+        ],
+        class: [
+          "Class",
+          120,
+          90,
+          (w, h) => [
+            `M0 0H${w}V${h}H0Z`,
+            `M0 ${h * 0.28}H${w}M0 ${h * 0.6}H${w}`,
+          ],
+        ],
+        arrL: [
+          "Panah kiri",
+          120,
+          60,
+          Pl([
+            [1, 0.25],
+            [0.4, 0.25],
+            [0.4, 0],
+            [0, 0.5],
+            [0.4, 1],
+            [0.4, 0.75],
+            [1, 0.75],
+          ]),
+        ],
+        arrU: [
+          "Panah atas",
+          60,
+          120,
+          Pl([
+            [0.25, 1],
+            [0.25, 0.4],
+            [0, 0.4],
+            [0.5, 0],
+            [1, 0.4],
+            [0.75, 0.4],
+            [0.75, 1],
+          ]),
+        ],
+        arrD: [
+          "Panah bawah",
+          60,
+          120,
+          Pl([
+            [0.25, 0],
+            [0.25, 0.6],
+            [0, 0.6],
+            [0.5, 1],
+            [1, 0.6],
+            [0.75, 0.6],
+            [0.75, 0],
+          ]),
+        ],
+        stored: [
+          "Stored data",
+          110,
+          60,
+          (w, h) => [
+            `M${w * 0.12} 0H${w * 0.88}A${w * 0.12} ${h / 2} 0 0 1 ${w * 0.88} ${h}H${w * 0.12}A${w * 0.12} ${h / 2} 0 0 0 ${w * 0.12} 0Z`,
+          ],
+        ],
+        direct: [
+          "Direct storage",
+          110,
+          60,
+          (w, h) => [
+            `M${w * 0.12} 0H${w * 0.88}A${w * 0.12} ${h / 2} 0 0 1 ${w * 0.88} ${h}H${w * 0.12}A${w * 0.12} ${h / 2} 0 0 1 ${w * 0.12} 0Z`,
+            `M${w * 0.88} 0A${w * 0.12} ${h / 2} 0 0 0 ${w * 0.88} ${h}`,
+          ],
+        ],
+        card: [
+          "Card",
+          110,
+          60,
+          Pl([
+            [0.2, 0],
+            [1, 0],
+            [1, 1],
+            [0, 1],
+            [0, 0.2],
+          ]),
+        ],
+        merge: [
+          "Merge",
+          70,
+          60,
+          Pl([
+            [0, 0],
+            [1, 0],
+            [0.5, 1],
+          ]),
+        ],
+        sort: [
+          "Sort",
+          80,
+          80,
+          (w, h) => [
+            `M${w / 2} 0L${w} ${h / 2}L${w / 2} ${h}L0 ${h / 2}Z`,
+            `M0 ${h / 2}H${w}`,
+          ],
+        ],
+        collate: [
+          "Collate",
+          60,
+          70,
+          Pl([
+            [0, 0],
+            [1, 0],
+            [0, 1],
+            [1, 1],
+          ]),
+        ],
+        loop: [
+          "Loop limit",
+          110,
+          60,
+          Pl([
+            [0.15, 0],
+            [0.85, 0],
+            [1, 0.2],
+            [1, 1],
+            [0, 1],
+            [0, 0.2],
+          ]),
+        ],
+        manop: [
+          "Manual operation",
+          120,
+          60,
+          Pl([
+            [0, 0],
+            [1, 0],
+            [0.85, 1],
+            [0.15, 1],
+          ]),
+        ],
+        lb: [
+          "Load Balancer",
+          70,
+          60,
+          (w, h) => [
+            RR(0, 0, w, h, 8),
+            `M${w * 0.15} ${h / 2}H${w * 0.4}L${w * 0.75} ${h * 0.28}M${w * 0.4} ${h / 2}H${w * 0.8}M${w * 0.4} ${h / 2}L${w * 0.75} ${h * 0.72}`,
+          ],
+          { text: "Load Balancer" },
+        ],
+        proxy: [
+          "Proxy / WAF",
+          70,
+          60,
+          (w, h) => [
+            RR(0, 0, w, h, 8),
+            `M${w * 0.2} ${h * 0.38}H${w * 0.8}L${w * 0.64} ${h * 0.22}M${w * 0.8} ${h * 0.64}H${w * 0.2}L${w * 0.36} ${h * 0.8}`,
+          ],
+          { fill: "#fff1ef", stroke: "#ea580c", text: "Proxy / WAF" },
+        ],
+        key: [
+          "Credential",
+          80,
+          40,
+          (w, h) => [
+            CI(w * 0.2, h / 2, h * 0.3),
+            `M${w * 0.4} ${h / 2}H${w * 0.95}M${w * 0.78} ${h / 2}V${h * 0.78}M${w * 0.62} ${h / 2}V${h * 0.7}`,
+          ],
+          { text: "Credential" },
+        ],
+        siem: [
+          "SIEM",
+          80,
+          70,
+          (w, h) => [
+            RR(0, 0, w, h * 0.75, 5),
+            `M${w * 0.4} ${h * 0.75}V${h * 0.9}M${w * 0.25} ${h * 0.9}H${w * 0.75}M${w * 0.12} ${h * 0.5}L${w * 0.3} ${h * 0.35}L${w * 0.45} ${h * 0.5}L${w * 0.62} ${h * 0.2}L${w * 0.85} ${h * 0.4}`,
+          ],
+          { text: "SIEM" },
+        ],
+        hunt: [
+          "Investigate",
+          60,
+          60,
+          (w, h) => [
+            CI(w * 0.4, h * 0.4, w * 0.3),
+            `M${w * 0.62} ${h * 0.62}L${w * 0.95} ${h * 0.95}`,
+          ],
+          { text: "Investigate" },
+        ],
+        iot: [
+          "IoT / Chip",
+          60,
+          60,
+          (w, h) => [
+            RR(w * 0.2, h * 0.2, w * 0.6, h * 0.6, 4),
+            `M${w * 0.35} ${h * 0.2}V0M${w * 0.65} ${h * 0.2}V0M${w * 0.35} ${h * 0.8}V${h}M${w * 0.65} ${h * 0.8}V${h}M${w * 0.2} ${h * 0.35}H0M${w * 0.2} ${h * 0.65}H0M${w * 0.8} ${h * 0.35}H${w}M${w * 0.8} ${h * 0.65}H${w}`,
+          ],
+          { text: "IoT" },
+        ],
+        docker: [
+          "Docker",
+          70,
+          60,
+          (w, h) => [
+            RR(0, h * 0.35, w, h * 0.65, 6),
+            `M${w * 0.12} ${h * 0.35}V${h * 0.12}H${w * 0.38}V${h * 0.35}M${w * 0.38} ${h * 0.12}H${w * 0.62}V${h * 0.35}M${w * 0.62} ${h * 0.12}H${w * 0.88}V${h * 0.35}`,
+          ],
+          { fill: "#e0f2fe", stroke: "#0284c7", text: "Container" },
+        ],
+        queue: [
+          "Queue",
+          100,
+          40,
+          (w, h) => [
+            RR(0, 0, w, h, 6),
+            `M${w * 0.25} 0V${h}M${w * 0.5} 0V${h}M${w * 0.75} 0V${h}`,
+          ],
+          { text: "Queue" },
+        ],
+        api: [
+          "API",
+          70,
+          50,
+          (w, h) => [
+            RR(0, 0, w, h, 8),
+            `M${w * 0.35} ${h * 0.3}L${w * 0.2} ${h / 2}L${w * 0.35} ${h * 0.7}M${w * 0.65} ${h * 0.3}L${w * 0.8} ${h / 2}L${w * 0.65} ${h * 0.7}M${w * 0.55} ${h * 0.25}L${w * 0.45} ${h * 0.75}`,
+          ],
+          { text: "API" },
+        ],
+        folder: [
+          "Folder",
+          70,
+          55,
+          (w, h) => [
+            `M0 ${h * 0.1}Q0 0 ${w * 0.08} 0H${w * 0.38}L${w * 0.48} ${h * 0.15}H${w * 0.92}Q${w} ${h * 0.15} ${w} ${h * 0.25}V${h * 0.9}Q${w} ${h} ${w * 0.92} ${h}H${w * 0.08}Q0 ${h} 0 ${h * 0.9}Z`,
+          ],
+          { text: "Files" },
+        ],
+        alert: [
+          "Alert",
+          64,
+          60,
+          (w, h) => [
+            `M${w / 2} 0L${w} ${h}H0Z`,
+            `M${w / 2} ${h * 0.4}V${h * 0.65}` + CI(w / 2, h * 0.8, 1.5),
+          ],
+          { fill: "#fef3c7", stroke: "#d97706", text: "Alert" },
+        ],
+        text: ["Teks", 100, 30, (w, h) => [`M0 0H${w}V${h}H0Z`]],
+        cont: ["Container", 360, 240, (w, h) => [R(w, h, 10)]],
+      };
+      SH.cloud.push({ fill: "#e0f2fe", stroke: "#0284c7", text: "Cloud" });
+      SH.sticky = [
+        "Sticky",
+        100,
+        70,
+        SH.note[3],
+        { fill: "#fef9c3", stroke: "#ca8a04" },
+      ];
+      const LB = new Set([
+        "img",
+        "actor",
+        "srv",
+        "fw",
+        "rtr",
+        "sw",
+        "pc",
+        "lap",
+        "mob",
+        "usr",
+        "atk",
+        "bug",
+        "lck",
+        "shd",
+        "mail",
+        "wifi",
+        "cli",
+        "globe",
+        "lb",
+        "proxy",
+        "key",
+        "siem",
+        "hunt",
+        "iot",
+        "docker",
+        "queue",
+        "api",
+        "folder",
+        "alert",
+        "bot",
+        "vpn",
+        "antenna",
+        "hdd",
+        "vm",
+        "cam",
+        "group",
+        "browser",
+        "dns",
+        "cdn",
+        "dbc",
+        "k8s",
+        "fn",
+        "bucket",
+        "unlck",
+        "cert",
+        "mfa",
+        "pwd",
+        "eye",
+        "target",
+        "virus",
+        "skull",
+        "cloudup",
+        "sat",
+        "prn",
+        "tab",
+        "kbd",
+        "usb",
+        "badge",
+        "gear",
+        "clock",
+        "cal",
+        "chart",
+        "pie",
+        "pin",
+        "rack",
+        "git",
+      ]);
+      function imgBody(n) {
+        const w = n.w,
+          h = n.h,
+          m = Math.min(w, h),
+          r = Math.min(m / 2, (n.rd || 0) * m),
+          p = n.tile ? Math.round(m * (n.pd ?? 0.18)) : 0,
+          id = "c" + n.id;
+        return (
+          (n.tile
+            ? `<rect width="${w}" height="${h}" rx="${r}" fill="${n.fill && n.fill != "none" ? n.fill : "#ffffff"}" stroke="${n.stroke && n.stroke != "none" ? n.stroke : "#cbd5e1"}" stroke-width="${n.sw || 1.5}"/>`
+            : "") +
+          `<clipPath id="${id}"><rect x="${p}" y="${p}" width="${w - 2 * p}" height="${h - 2 * p}" rx="${n.tile ? (r * (m - 2 * p)) / m : r}"/></clipPath><image href="${n.src}" x="${p}" y="${p}" width="${w - 2 * p}" height="${h - 2 * p}" preserveAspectRatio="${n.tile ? "xMidYMid meet" : "none"}" clip-path="url(#${id})"/><rect width="${w}" height="${h}" fill="transparent"/>`
+        );
+      }
+      const imgCtl = (n) =>
+        `<label>Sudut tumpul<input type="range" data-k="rd" min="0" max=".5" step=".01" value="${n.rd || 0}"></label><div class="g3"><button data-act="rd:0">Kotak</button><button data-act="rd:.22">Rounded</button><button data-act="rd:.5">Bulat</button></div><div class="g"><button data-act="tl" class="${n.tile ? "on" : ""}">Bingkai</button><button data-act="ri">Ganti gambar</button></div>${n.tile ? `<label>Jarak gambar ke tepi<input type="range" data-k="pd" min="0" max=".4" step=".01" value="${n.pd ?? 0.18}"></label>` : ""}`;
+      function styleImg(n, rr, tl) {
+        if (tl) {
+          const s = Math.min(96, Math.max(64, n.w, n.h));
+          Object.assign(n, {
+            tile: true,
+            rd: 0.22,
+            fill: "#ffffff",
+            stroke: "#cbd5e1",
+            w: s,
+            h: s,
+          });
+        } else if (rr) n.rd = 0.22;
+        draw();
+        panel();
+      }
+      const CAT = [
+        [
+          "IT & Security",
+          [
+            "atk",
+            "globe",
+            "cloud",
+            "fw",
+            "rtr",
+            "sw",
+            "srv",
+            "cyl",
+            "pc",
+            "lap",
+            "mob",
+            "usr",
+            "bug",
+            "lck",
+            "shd",
+            "mail",
+            "wifi",
+            "cli",
+            "lb",
+            "proxy",
+            "key",
+            "siem",
+            "hunt",
+            "iot",
+            "docker",
+            "queue",
+            "api",
+            "folder",
+            "alert",
+            "vpn",
+            "antenna",
+            "hdd",
+            "vm",
+            "cam",
+            "group",
+            "browser",
+            "bot",
+          ],
+        ],
+        [
+          "Dasar",
+          [
+            "rect",
+            "square",
+            "round",
+            "ellipse",
+            "circle",
+            "diamond",
+            "tri",
+            "pent",
+            "hex",
+            "oct",
+            "star",
+            "cube",
+            "cyl",
+            "cloud",
+            "note",
+            "sticky",
+            "callout",
+            "cross",
+            "brace",
+            "bracket",
+            "class",
+            "actor",
+            "text",
+            "cont",
+            "heart",
+            "chev",
+            "bolt",
+            "bubble",
+            "ring",
+          ],
+        ],
+        [
+          "Flowchart",
+          [
+            "term",
+            "rect",
+            "diamond",
+            "para",
+            "doc",
+            "predef",
+            "internal",
+            "hex",
+            "manual",
+            "delay",
+            "display",
+            "tape",
+            "sum",
+            "offpage",
+            "trap",
+            "stored",
+            "card",
+            "merge",
+            "sort",
+            "collate",
+            "loop",
+            "conn",
+            "direct",
+            "manop",
+            "or",
+            "mdoc",
+          ],
+        ],
+        ["Panah", ["arrR", "arrL", "arrU", "arrD", "arr2", "step"]],
+        [
+          "Security+",
+          ["unlck", "cert", "mfa", "pwd", "eye", "target", "virus", "skull"],
+        ],
+        [
+          "Cloud & DevOps",
+          [
+            "cloudup",
+            "bucket",
+            "k8s",
+            "fn",
+            "dbc",
+            "dns",
+            "cdn",
+            "git",
+            "gear",
+            "rack",
+            "chart",
+            "pie",
+            "cal",
+            "clock",
+          ],
+        ],
+        ["Perangkat", ["tab", "kbd", "usb", "prn", "sat", "badge", "pin"]],
+        ["Status", ["ok", "no", "info"]],
+      ];
+      function prev(k) {
+        const [, w, h, f] = SH[k],
+          s = Math.min(40 / w, 26 / h),
+          d = f(w, h),
+          vf = 'vector-effect="non-scaling-stroke"';
+        return `<svg viewBox="0 0 48 34"><g transform="translate(${(48 - w * s) / 2} ${(34 - h * s) / 2}) scale(${s})" fill="${k == "cont" || k == "text" || (SH[k][4] && SH[k][4].fill == "none") ? "none" : "var(--pn)"}" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"${k == "cont" || k == "text" ? ' stroke-dasharray="3 2"' : ""}><path d="${d[0]}" ${vf}/>${d[1] ? `<path d="${d[1]}" fill="none" ${vf}/>` : ""}</g></svg>`;
+      }
+      $("#sl").innerHTML = CAT.map(
+        ([c, ks]) =>
+          `<h4>${c}</h4><div class="sg">` +
+          ks
+            .map(
+              (k) =>
+                `<button class="sb" data-t="${k}" data-l="${SH[k][0].toLowerCase()} ${c.toLowerCase()}" title="${SH[k][0]}">${prev(k)}</button>`,
+            )
+            .join("") +
+          "</div>",
+      ).join("");
+      $("#sl").onclick = (ev) => {
+        const b = ev.target.closest("[data-t]");
+        if (b) {
+          add(b.dataset.t);
+          setTool("sel");
+        }
+      };
+      $("#q").oninput = (ev) => {
+        const v = ev.target.value.toLowerCase();
+        document
+          .querySelectorAll(".sb")
+          .forEach(
+            (b) => (b.style.display = b.dataset.l.includes(v) ? "" : "none"),
+          );
+      };
+      document.querySelectorAll("[data-tab]").forEach(
+        (b) =>
+          (b.onclick = () => {
+            document
+              .querySelectorAll("[data-tab]")
+              .forEach((x) => x.classList.toggle("on", x == b));
+            $("#ps").hidden = b.dataset.tab != "s";
+            $("#pv").hidden = b.dataset.tab != "i";
+          }),
+      );
+      /* ---------- ports ---------- */
+      function ports(n) {
+        let L;
+        if (
+          [
+            "ellipse",
+            "sum",
+            "globe",
+            "circle",
+            "conn",
+            "ring",
+            "or",
+            "ok",
+            "no",
+            "info",
+            "target",
+            "clock",
+            "pie",
+            "gear",
+            "virus",
+            "cdn",
+            "k8s",
+          ].includes(n.t)
+        ) {
+          const c = Math.SQRT1_2 / 2;
+          L = [
+            [0.5, 0, "n"],
+            [1, 0.5, "e"],
+            [0.5, 1, "s"],
+            [0, 0.5, "w"],
+            [0.5 + c, 0.5 - c, "n"],
+            [0.5 + c, 0.5 + c, "s"],
+            [0.5 - c, 0.5 + c, "s"],
+            [0.5 - c, 0.5 - c, "n"],
+          ];
+        } else if (n.t == "diamond")
+          L = [
+            [0.5, 0, "n"],
+            [1, 0.5, "e"],
+            [0.5, 1, "s"],
+            [0, 0.5, "w"],
+            [0.75, 0.25, "n"],
+            [0.75, 0.75, "s"],
+            [0.25, 0.75, "s"],
+            [0.25, 0.25, "n"],
+          ];
+        else
+          L = [
+            [0.5, 0, "n"],
+            [1, 0.5, "e"],
+            [0.5, 1, "s"],
+            [0, 0.5, "w"],
+            [0.25, 0, "n"],
+            [0.75, 0, "n"],
+            [1, 0.25, "e"],
+            [1, 0.75, "e"],
+            [0.25, 1, "s"],
+            [0.75, 1, "s"],
+            [0, 0.25, "w"],
+            [0, 0.75, "w"],
+          ];
+        return L.map(([u, v, d]) => ({
+          x: n.x + u * n.w,
+          y: n.y + v * n.h,
+          d,
+        }));
+      }
+      function endP(e, s) {
+        const n = nd(s == "a" ? e.a : e.b),
+          o = nd(s == "a" ? e.b : e.a),
+          i = s == "a" ? e.pa : e.pb,
+          P = ports(n);
+        if (i != null && P[i]) return P[i];
+        const dx = o.x + o.w / 2 - (n.x + n.w / 2),
+          dy = o.y + o.h / 2 - (n.y + n.h / 2);
+        return P[
+          Math.abs(dx) * n.h > Math.abs(dy) * n.w
+            ? dx > 0
+              ? 1
+              : 3
+            : dy > 0
+              ? 2
+              : 0
+        ];
+      }
+      function near(n, p, r) {
+        let b = null,
+          bd = r;
+        ports(n).forEach((q, i) => {
+          const d = Math.hypot(q.x - p[0], q.y - p[1]);
+          if (d < bd) {
+            bd = d;
+            b = i;
+          }
+        });
+        return b;
+      }
+      /* ---------- routing ---------- */
+      const DV = { n: [0, -1], s: [0, 1], e: [1, 0], w: [-1, 0] };
+      function clean(p) {
+        const o = [];
+        p.forEach((q) => {
+          const l = o[o.length - 1];
+          if (
+            !l ||
+            Math.abs(l[0] - q[0]) > 0.01 ||
+            Math.abs(l[1] - q[1]) > 0.01
+          )
+            o.push(q);
+        });
+        return o.filter((q, i) => {
+          if (!i || i == o.length - 1) return true;
+          const a = o[i - 1],
+            b = o[i + 1];
+          return !(
+            (Math.abs(a[0] - q[0]) < 0.01 && Math.abs(q[0] - b[0]) < 0.01) ||
+            (Math.abs(a[1] - q[1]) < 0.01 && Math.abs(q[1] - b[1]) < 0.01)
+          );
+        });
+      }
+      function rpath(p, r) {
+        let d = `M${p[0][0]} ${p[0][1]}`;
+        for (let i = 1; i < p.length - 1; i++) {
+          const a = p[i - 1],
+            b = p[i],
+            c = p[i + 1],
+            l1 = Math.hypot(b[0] - a[0], b[1] - a[1]),
+            l2 = Math.hypot(c[0] - b[0], c[1] - b[1]),
+            k = Math.min(r, l1 / 2, l2 / 2),
+            u = [(b[0] - a[0]) / l1, (b[1] - a[1]) / l1],
+            v = [(c[0] - b[0]) / l2, (c[1] - b[1]) / l2];
+          d += `L${b[0] - u[0] * k} ${b[1] - u[1] * k}Q${b[0]} ${b[1]} ${b[0] + v[0] * k} ${b[1] + v[1] * k}`;
+        }
+        const z = p[p.length - 1];
+        return d + `L${z[0]} ${z[1]}`;
+      }
+      function pmid(p) {
+        let L = 0;
+        for (let i = 1; i < p.length; i++)
+          L += Math.hypot(p[i][0] - p[i - 1][0], p[i][1] - p[i - 1][1]);
+        let h = L / 2;
+        for (let i = 1; i < p.length; i++) {
+          const l = Math.hypot(p[i][0] - p[i - 1][0], p[i][1] - p[i - 1][1]);
+          if (h <= l) {
+            const f = l ? h / l : 0;
+            return [
+              p[i - 1][0] + (p[i][0] - p[i - 1][0]) * f,
+              p[i - 1][1] + (p[i][1] - p[i - 1][1]) * f,
+            ];
+          }
+          h -= l;
+        }
+        return p[0];
+      }
+      function wpPath(e, S0, T0, a, b) {
+        const L = [...e.wp, T0],
+          o = [S0];
+        let pv = S0,
+          ax = a[0] != 0 ? "h" : "v",
+          first = true;
+        L.forEach((q, i) => {
+          const last = i == L.length - 1;
+          if (Math.abs(pv[0] - q[0]) > 0.01 && Math.abs(pv[1] - q[1]) > 0.01) {
+            const wh = last
+                ? b[0] != 0
+                  ? "v"
+                  : "h"
+                : first
+                  ? a[0] != 0
+                    ? "h"
+                    : "v"
+                  : ax == "h"
+                    ? "v"
+                    : "h",
+              c = wh == "h" ? [q[0], pv[1]] : [pv[0], q[1]];
+            o.push(c);
+            pv = c;
+          }
+          o.push(q);
+          ax = Math.abs(q[0] - pv[0]) > 0.01 ? "h" : "v";
+          pv = q;
+          first = false;
+        });
+        return o;
+      }
+      function route(e) {
+        if (!nd(e.a) || !nd(e.b)) return null;
+        const s = endP(e, "a"),
+          t = endP(e, "b"),
+          sty = e.style || "ortho",
+          S0 = [s.x, s.y],
+          T0 = [t.x, t.y];
+        if (sty == "straight")
+          return { d: `M${s.x} ${s.y}L${t.x} ${t.y}`, mid: pmid([S0, T0]) };
+        const a = DV[s.d],
+          b = DV[t.d];
+        if (sty == "curve") {
+          const k = Math.max(40, Math.hypot(t.x - s.x, t.y - s.y) / 3),
+            c1 = [s.x + a[0] * k, s.y + a[1] * k],
+            c2 = [t.x + b[0] * k, t.y + b[1] * k];
+          return {
+            d: `M${s.x} ${s.y}C${c1} ${c2} ${t.x} ${t.y}`,
+            mid: [
+              (s.x + 3 * c1[0] + 3 * c2[0] + t.x) / 8,
+              (s.y + 3 * c1[1] + 3 * c2[1] + t.y) / 8,
+            ],
+          };
+        }
+        const m = 20,
+          s1 = [s.x + a[0] * m, s.y + a[1] * m],
+          t1 = [t.x + b[0] * m, t.y + b[1] * m],
+          h1 = a[0] != 0,
+          h2 = b[0] != 0;
+        let p, hd;
+        if (h1 && h2) {
+          if (
+            s.d != t.d &&
+            (s.d == "e" ? t.x >= s.x + 2 * m : t.x <= s.x - 2 * m)
+          ) {
+            const mx = e.bx ?? (s.x + t.x) / 2;
+            p = [S0, [mx, s.y], [mx, t.y], T0];
+            hd = [mx, (s.y + t.y) / 2, "x"];
+          } else if (s.d == t.d) {
+            const x =
+              e.bx ??
+              (s.d == "e" ? Math.max(s1[0], t1[0]) : Math.min(s1[0], t1[0]));
+            p = [S0, [x, s.y], [x, t.y], T0];
+            hd = [x, (s.y + t.y) / 2, "x"];
+          } else {
+            const my = e.by ?? (s.y + t.y) / 2;
+            p = [S0, s1, [s1[0], my], [t1[0], my], t1, T0];
+            hd = [(s1[0] + t1[0]) / 2, my, "y"];
+          }
+        } else if (!h1 && !h2) {
+          if (
+            s.d != t.d &&
+            (s.d == "s" ? t.y >= s.y + 2 * m : t.y <= s.y - 2 * m)
+          ) {
+            const my = e.by ?? (s.y + t.y) / 2;
+            p = [S0, [s.x, my], [t.x, my], T0];
+            hd = [(s.x + t.x) / 2, my, "y"];
+          } else if (s.d == t.d) {
+            const y =
+              e.by ??
+              (s.d == "s" ? Math.max(s1[1], t1[1]) : Math.min(s1[1], t1[1]));
+            p = [S0, [s.x, y], [t.x, y], T0];
+            hd = [(s.x + t.x) / 2, y, "y"];
+          } else {
+            const mx = e.bx ?? (s.x + t.x) / 2;
+            p = [S0, s1, [mx, s1[1]], [mx, t1[1]], t1, T0];
+            hd = [mx, (s1[1] + t1[1]) / 2, "x"];
+          }
+        } else if (h1) {
+          const ok =
+            (s.d == "e" ? t.x > s.x + m : t.x < s.x - m) &&
+            (t.d == "n" ? s.y < t.y - m : s.y > t.y + m);
+          p = ok ? [S0, [t.x, s.y], T0] : [S0, s1, [s1[0], t1[1]], t1, T0];
+        } else {
+          const ok =
+            (s.d == "s" ? t.y > s.y + m : t.y < s.y - m) &&
+            (t.d == "w" ? s.x < t.x - m : s.x > t.x + m);
+          p = ok ? [S0, [s.x, t.y], T0] : [S0, s1, [t1[0], s1[1]], t1, T0];
+        }
+        if (e.wp && e.wp.length) p = wpPath(e, S0, T0, a, b);
+        p = clean(p);
+        return {
+          d: p.length > 1 ? rpath(p, 8) : `M${s.x} ${s.y}`,
+          mid: pmid(p),
+          pts: p,
+        };
+      }
+      /* ---------- render ---------- */
+      function body(n) {
+        const t = n.t;
+        if (t == "img") return imgBody(n);
+        if (t == "text")
+          return `<rect width="${n.w}" height="${n.h}" fill="transparent"/>`;
+        const f = SH[t][3](n.w, n.h),
+          s = `stroke="${n.stroke}" stroke-width="${n.sw || 1.5}" stroke-linejoin="round"${n.dash ? ' stroke-dasharray="6 4"' : ""}`;
+        return (
+          `<path d="${f[0]}" fill="${n.fill}" ${s}/>` +
+          (f[1] ? `<path d="${f[1]}" fill="none" ${s}/>` : "") +
+          (t == "cont"
+            ? `<rect width="${n.w}" height="30" fill="transparent"/>`
+            : n.fill == "none"
+              ? `<rect width="${n.w}" height="${n.h}" fill="transparent"/>`
+              : "")
+        );
+      }
+      function txt(n) {
+        if (!n.text) return "";
+        const L = n.text.split("\n"),
+          fs = n.fs || 13;
+        let x = n.w / 2,
+          y,
+          a = "middle";
+        if (n.t == "cont") {
+          x = 12;
+          a = "start";
+          y = fs + 8;
+        } else if (LB.has(n.t)) y = n.h + fs + 4;
+        else y = n.h / 2 - (L.length - 1) * fs * 0.6 + fs * 0.35;
+        return (
+          `<text x="${x}" y="${y}" text-anchor="${a}" font-size="${fs}" font-weight="${n.b ? 700 : 400}" font-family="${FS}" style="pointer-events:none;fill:${n.tc || (!LB.has(n.t) && n.t != "text" && n.t != "cont" && n.fill && n.fill != "none" ? "#1f2937" : "var(--ink,#1f2937)")}">` +
+          L.map(
+            (l, i) =>
+              `<tspan x="${x}" dy="${i ? fs * 1.2 : 0}">${esc(l)}</tspan>`,
+          ).join("") +
+          "</text>"
+        );
+      }
+      function edge(e) {
+        const r = route(e);
+        if (!r) return "";
+        return `<g data-e="${e.id}"><path d="${r.d}" fill="none" stroke="${e.stroke}" stroke-width="${e.sw || 1.5}"${e.dash ? ' stroke-dasharray="6 4"' : ""}${e.arrow ? ' marker-end="url(#ar)"' : ""}${e.arrowS ? ' marker-start="url(#ar)"' : ""}/><path d="${r.d}" fill="none" stroke="transparent" stroke-width="12"/>${e.text ? `<text x="${r.mid[0]}" y="${r.mid[1] - 5}" text-anchor="middle" font-size="12" stroke-width="4" paint-order="stroke" font-family="${FS}" style="pointer-events:none;fill:var(--ink,#1f2937);stroke:var(--cv,#fff)">${esc(e.text)}</text>` : ""}</g>`;
+      }
+      const scene = () =>
+        S.nodes
+          .map(
+            (n) =>
+              `<g data-id="${n.id}" transform="translate(${n.x},${n.y})" opacity="${(n.op || 100) / 100}">${body(n)}${txt(n)}</g>`,
+          )
+          .join("") + S.edges.map(edge).join("");
+      function draw() {
+        let h = scene();
+        const k = V.k;
+        sel
+          .map(nd)
+          .filter(Boolean)
+          .forEach((n) => {
+            h += `<rect x="${n.x}" y="${n.y}" width="${n.w}" height="${n.h}" fill="none" stroke="${AC}" stroke-dasharray="4 3" stroke-width="${1.5 / k}" pointer-events="none"/>`;
+          });
+        if (selE) {
+          const e = ed(selE),
+            r = e && route(e);
+          if (r) {
+            h += `<path d="${r.d}" fill="none" stroke="${AC}" stroke-width="${6 / k}" opacity=".25" pointer-events="none"/>`;
+            ["a", "b"].forEach((c) => {
+              const q = endP(e, c);
+              h += `<circle data-end="${c}" cx="${q.x}" cy="${q.y}" r="${6 / k}" fill="${AC}" stroke="#fff" stroke-width="${1.5 / k}" style="cursor:move"/>`;
+            });
+            if (r.hd)
+              h += `<rect data-bend="${r.hd[2]}" x="${r.hd[0] - 5 / k}" y="${r.hd[1] - 5 / k}" width="${10 / k}" height="${10 / k}" rx="${2 / k}" fill="#fff" stroke="${AC}" stroke-width="${1.5 / k}" transform="rotate(45 ${r.hd[0]} ${r.hd[1]})" style="cursor:${r.hd[2] == "x" ? "ew" : "ns"}-resize"/>`;
+          }
+        }
+        if (selE) {
+          const e = ed(selE),
+            r = e && route(e);
+          if (r && r.pts)
+            r.pts.forEach((q, i, A) => {
+              if (i == A.length - 1) return;
+              const z = A[i + 1];
+              if (Math.hypot(z[0] - q[0], z[1] - q[1]) < 14) return;
+              const hz = Math.abs(q[1] - z[1]) < 0.5,
+                mx = (q[0] + z[0]) / 2,
+                my = (q[1] + z[1]) / 2;
+              h += `<rect data-seg="${i}" x="${mx - (hz ? 8 : 4) / k}" y="${my - (hz ? 4 : 8) / k}" width="${(hz ? 16 : 8) / k}" height="${(hz ? 8 : 16) / k}" rx="${3 / k}" fill="#fff" stroke="${AC}" stroke-width="${1.5 / k}" style="cursor:${hz ? "ns" : "ew"}-resize"/>`;
+            });
+        }
+        if (sel.length == 1 && (!D || D.t == "res")) {
+          const n = nd(sel[0]);
+          if (n)
+            [
+              [n.x, n.y, "nwse", "nw"],
+              [n.x + n.w, n.y, "nesw", "ne"],
+              [n.x, n.y + n.h, "nesw", "sw"],
+              [n.x + n.w, n.y + n.h, "nwse", "se"],
+            ].forEach(([x, y, r, c]) => {
+              h += `<rect data-h="${c}" x="${x - 4.5 / k}" y="${y - 4.5 / k}" width="${9 / k}" height="${9 / k}" rx="${2 / k}" fill="#fff" stroke="${AC}" stroke-width="${1.5 / k}" style="cursor:${r}-resize"/>`;
+            });
+        }
+        const hn = D
+          ? D.t == "link" || D.t == "reend"
+            ? D.hid
+            : null
+          : tool == "hand"
+            ? null
+            : H;
+        if (hn && nd(hn))
+          ports(nd(hn)).forEach((q, i) => {
+            const on = D && D.hp == i;
+            h += `<circle data-p data-n="${hn}" data-i="${i}" cx="${q.x}" cy="${q.y}" r="${10 / k}" fill="transparent" style="cursor:crosshair"/><circle cx="${q.x}" cy="${q.y}" r="${(on ? 6 : 4.5) / k}" fill="${on ? AC : "#fff"}" stroke="${AC}" stroke-width="${1.5 / k}" pointer-events="none"/>`;
+          });
+        if (D && (D.t == "link" || D.t == "reend")) {
+          let P;
+          if (D.t == "link") {
+            const a = nd(D.from);
+            P =
+              D.pa != null
+                ? ports(a)[D.pa]
+                : { x: a.x + a.w / 2, y: a.y + a.h / 2 };
+          } else P = endP(D.e, D.end == "a" ? "b" : "a");
+          h += `<line x1="${P.x}" y1="${P.y}" x2="${D.q[0]}" y2="${D.q[1]}" stroke="${AC}" stroke-dasharray="5 4" stroke-width="${1.5 / k}" pointer-events="none"/>`;
+        }
+        if (D && D.t == "box") {
+          const x = Math.min(D.p0[0], D.q[0]),
+            y = Math.min(D.p0[1], D.q[1]);
+          h += `<rect x="${x}" y="${y}" width="${Math.abs(D.q[0] - D.p0[0])}" height="${Math.abs(D.q[1] - D.p0[1])}" fill="#3b82f618" stroke="${AC}" stroke-width="${1 / k}" pointer-events="none"/>`;
+        }
+        W.innerHTML = h;
+        apply();
+        clearTimeout(draw.t);
+        draw.t = setTimeout(save, 400);
+      }
+      function apply() {
+        const t = `translate(${V.x},${V.y}) scale(${V.k})`;
+        W.setAttribute("transform", t);
+        $("#gd").setAttribute("patternTransform", t);
+        $("#gr").setAttribute("transform", t);
+        $("#gr").style.display = GS ? "" : "none";
+        $("#zl").textContent = Math.round(V.k * 100) + "%";
+      }
+      /* ---------- editing ---------- */
+      const pt = (ev) => {
+        const r = svg.getBoundingClientRect();
+        return [
+          (ev.clientX - r.left - V.x) / V.k,
+          (ev.clientY - r.top - V.y) / V.k,
+        ];
+      };
+      function add(t) {
+        const d = SH[t],
+          r = svg.getBoundingClientRect(),
+          c = [(r.width / 2 - V.x) / V.k, (r.height / 2 - V.y) / V.k],
+          o = {
+            id: uid(),
+            t,
+            x: sn(c[0] - d[1] / 2) + (S.nodes.length % 5) * 10,
+            y: sn(c[1] - d[2] / 2) + (S.nodes.length % 5) * 10,
+            w: d[1],
+            h: d[2],
+            fill: "#ffffff",
+            stroke: "#64748b",
+            text: t == "text" ? "Teks" : t == "cont" ? "Container" : "",
+            fs: 13,
+            dash: false,
+          };
+        if (t == "cont") {
+          o.fill = "none";
+          o.stroke = "#7c3aed";
+          o.dash = true;
+          o.tc = "#7c3aed";
+        }
+        if (t == "text") o.stroke = "none";
+        Object.assign(o, d[4] || {});
+        snap();
+        t == "cont" ? S.nodes.unshift(o) : S.nodes.push(o);
+        sel = [o.id];
+        selE = null;
+        draw();
+        panel();
+      }
+      function addImg(src, w, h, max) {
+        const s = Math.min(1, max / Math.max(w, h));
+        snap();
+        const r = svg.getBoundingClientRect(),
+          n = {
+            id: uid(),
+            t: "img",
+            x: sn((r.width / 2 - V.x) / V.k - (w * s) / 2),
+            y: sn((r.height / 2 - V.y) / V.k - (h * s) / 2),
+            w: Math.round(w * s),
+            h: Math.round(h * s),
+            src,
+            text: "",
+            fs: 12,
+            fill: "none",
+            stroke: "none",
+          };
+        S.nodes.push(n);
+        sel = [n.id];
+        selE = null;
+        draw();
+        panel();
+      }
+      function del() {
+        snap();
+        if (selE) S.edges = S.edges.filter((e) => e.id != selE);
+        S.nodes = S.nodes.filter((n) => !sel.includes(n.id));
+        S.edges = S.edges.filter((e) => nd(e.a) && nd(e.b));
+        sel = [];
+        selE = null;
+        draw();
+        panel();
+      }
+      function dup() {
+        if (!sel.length) return;
+        snap();
+        const m = {},
+          c = sel.map(nd).map((n) => {
+            const o = JSON.parse(JSON.stringify(n));
+            m[n.id] = o.id = uid();
+            o.x += 20;
+            o.y += 20;
+            return o;
+          });
+        S.nodes.push(...c);
+        S.edges
+          .filter((e) => m[e.a] && m[e.b])
+          .forEach((e) =>
+            S.edges.push({ ...e, id: uid(), a: m[e.a], b: m[e.b] }),
+          );
+        sel = c.map((n) => n.id);
+        draw();
+        panel();
+      }
+      function order(f) {
+        snap();
+        const s = sel.map(nd);
+        S.nodes = S.nodes.filter((n) => !s.includes(n));
+        f ? S.nodes.push(...s) : S.nodes.unshift(...s);
+        draw();
+      }
+      function align(c) {
+        snap();
+        const s = sel.map(nd),
+          x0 = Math.min(...s.map((n) => n.x)),
+          x1 = Math.max(...s.map((n) => n.x + n.w)),
+          y0 = Math.min(...s.map((n) => n.y)),
+          y1 = Math.max(...s.map((n) => n.y + n.h));
+        s.forEach((n) => {
+          if (c == "l") n.x = x0;
+          if (c == "r") n.x = x1 - n.w;
+          if (c == "c") n.x = sn((x0 + x1) / 2 - n.w / 2);
+          if (c == "t") n.y = y0;
+          if (c == "b") n.y = y1 - n.h;
+          if (c == "m") n.y = sn((y0 + y1) / 2 - n.h / 2);
+        });
+        draw();
+      }
+      function setTool(t) {
+        tool = t;
+        ["sel", "hand", "edge"].forEach((k, i) =>
+          $("#t" + (i + 1)).classList.toggle("on", k == t),
+        );
+        svg.style.cursor =
+          t == "edge" ? "crosshair" : t == "hand" ? "grab" : "";
+      }
+      function editTxt(x, y, w, h, val, cb) {
+        const r = svg.getBoundingClientRect(),
+          t = document.createElement("textarea");
+        t.className = "ed";
+        Object.assign(t.style, {
+          left: r.left + V.x + x * V.k + "px",
+          top: r.top + V.y + y * V.k + "px",
+          width: Math.max(90, w * V.k) + "px",
+          height: Math.max(34, h * V.k) + "px",
+        });
+        t.value = val || "";
+        document.body.appendChild(t);
+        t.focus();
+        t.select();
+        const done = () => {
+          if (t.isConnected) {
+            const v = t.value;
+            t.remove();
+            cb(v);
+          }
+        };
+        t.onblur = done;
+        t.onkeydown = (e) => {
+          if (e.key == "Escape") {
+            t.value = val || "";
+            t.blur();
+          }
+          if (e.key == "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            t.blur();
+          }
+        };
+      }
+      svg.oncontextmenu = (ev) => ev.preventDefault();
+      svg.onpointerdown = (ev) => {
+        svg.setPointerCapture(ev.pointerId);
+        const p = pt(ev),
+          T = ev.target,
+          pp = T.closest("[data-p]"),
+          he = T.closest("[data-end]"),
+          be = T.closest("[data-bend]"),
+          sg = T.closest("[data-seg]"),
+          h = T.closest("[data-h]"),
+          g = T.closest("[data-id]"),
+          eg = T.closest("[data-e]");
+        if (
+          ev.button == 1 ||
+          ev.button == 2 ||
+          spc ||
+          ev.ctrlKey ||
+          ev.metaKey ||
+          tool == "hand"
+        ) {
+          D = { t: "pan", sx: ev.clientX, sy: ev.clientY, vx: V.x, vy: V.y };
+          return;
+        }
+        if (pp) {
+          D = { t: "link", from: pp.dataset.n, pa: +pp.dataset.i, q: p };
+          return;
+        }
+        if (he) {
+          snap();
+          D = { t: "reend", e: ed(selE), end: he.dataset.end, q: p };
+          return;
+        }
+        if (be) {
+          snap();
+          D = { t: "bend", e: ed(selE), ax: be.dataset.bend };
+          return;
+        }
+        if (sg) {
+          const e = ed(selE),
+            r = e && route(e);
+          if (r && r.pts) {
+            snap();
+            const pts = r.pts.map((q) => [q[0], q[1]]);
+            let i = +sg.dataset.seg;
+            const hz = Math.abs(pts[i][1] - pts[i + 1][1]) < 0.5;
+            if (i == 0) {
+              pts.splice(1, 0, [pts[0][0], pts[0][1]]);
+              i = 1;
+            }
+            if (i + 1 == pts.length - 1)
+              pts.splice(i + 1, 0, [
+                pts[pts.length - 1][0],
+                pts[pts.length - 1][1],
+              ]);
+            D = { t: "seg", e, pts, i, hz };
+          }
+          return;
+        }
+        if (h) {
+          const n = nd(sel[0]);
+          snap();
+          D = { t: "res", h: h.dataset.h, n, o: { ...n } };
+          return;
+        }
+        if (tool == "edge" && g) {
+          D = { t: "link", from: g.dataset.id, pa: null, q: p };
+          return;
+        }
+        if (g) {
+          const id = g.dataset.id;
+          selE = null;
+          if (ev.shiftKey)
+            sel = sel.includes(id) ? sel.filter((i) => i != id) : [...sel, id];
+          else if (!sel.includes(id)) sel = [id];
+          const ids = new Set(sel);
+          sel.map(nd).forEach((n) => {
+            if (n && n.t == "cont")
+              S.nodes.forEach((m) => {
+                if (
+                  m !== n &&
+                  m.x >= n.x &&
+                  m.y >= n.y &&
+                  m.x + m.w <= n.x + n.w &&
+                  m.y + m.h <= n.y + n.h
+                )
+                  ids.add(m.id);
+              });
+          });
+          D = {
+            t: "move",
+            p,
+            o: [...ids].map((i) => ({ n: nd(i), x: nd(i).x, y: nd(i).y })),
+            s: false,
+          };
+          panel();
+          draw();
+          return;
+        }
+        if (eg) {
+          selE = eg.dataset.e;
+          sel = [];
+          panel();
+          draw();
+          return;
+        }
+        if (!ev.shiftKey) {
+          sel = [];
+          selE = null;
+          panel();
+        }
+        D = { t: "box", p0: p, q: p };
+        draw();
+      };
+      svg.onpointermove = (ev) => {
+        const p = pt(ev);
+        if (!D) {
+          const g = ev.target.closest("[data-id],[data-p],[data-h]"),
+            i = g
+              ? g.dataset.id || g.dataset.n || (sel.length == 1 ? sel[0] : null)
+              : null;
+          if (i != H) {
+            H = i;
+            draw();
+          }
+          return;
+        }
+        if (D.t == "pan") {
+          V.x = D.vx + ev.clientX - D.sx;
+          V.y = D.vy + ev.clientY - D.sy;
+          apply();
+        } else if (D.t == "move") {
+          if (!D.s) {
+            snap();
+            D.s = true;
+          }
+          const dx = p[0] - D.p[0],
+            dy = p[1] - D.p[1];
+          D.o.forEach((o) => {
+            o.n.x = sn(o.x + dx);
+            o.n.y = sn(o.y + dy);
+          });
+          const mv = new Set(D.o.map((o) => o.n.id)),
+            sx = D.o[0].n.x - D.o[0].x,
+            sy = D.o[0].n.y - D.o[0].y,
+            ex = sx - (D.ax || 0),
+            ey = sy - (D.ay || 0);
+          D.ax = sx;
+          D.ay = sy;
+          S.edges.forEach((e) => {
+            if (mv.has(e.a) && mv.has(e.b)) {
+              if (e.bx != null) e.bx += ex;
+              if (e.by != null) e.by += ey;
+              if (e.wp) e.wp = e.wp.map((q) => [q[0] + ex, q[1] + ey]);
+            }
+          });
+          draw();
+        } else if (D.t == "res") {
+          const o = D.o,
+            n = D.n,
+            c = D.h;
+          let x = o.x,
+            y = o.y,
+            w = o.w,
+            h = o.h;
+          const px = sn(p[0]),
+            py = sn(p[1]);
+          if (c.includes("e")) w = px - o.x;
+          if (c.includes("s")) h = py - o.y;
+          if (c.includes("w")) w = o.x + o.w - px;
+          if (c.includes("n")) h = o.y + o.h - py;
+          w = Math.max(20, w);
+          h = Math.max(20, h);
+          if (n.t == "img" || ev.shiftKey) h = Math.round((w * o.h) / o.w);
+          if (c.includes("w")) x = o.x + o.w - w;
+          if (c.includes("n")) y = o.y + o.h - h;
+          Object.assign(n, { x, y, w, h });
+          draw();
+        } else if (D.t == "link" || D.t == "reend") {
+          const el = document.elementFromPoint(ev.clientX, ev.clientY),
+            g = el && el.closest("[data-id],[data-p]"),
+            id = g ? g.dataset.id || g.dataset.n : null;
+          D.q = p;
+          D.hid = id && id != D.from ? id : null;
+          D.hp = D.hid ? near(nd(D.hid), p, 16 / V.k) : null;
+          draw();
+        } else if (D.t == "box") {
+          D.q = p;
+          draw();
+        } else if (D.t == "bend") {
+          if (D.ax == "x") D.e.bx = sn(p[0]);
+          else D.e.by = sn(p[1]);
+          draw();
+        } else if (D.t == "seg") {
+          const a = D.hz ? 1 : 0,
+            v = sn(p[a]);
+          D.pts[D.i][a] = v;
+          D.pts[D.i + 1][a] = v;
+          D.e.wp = D.pts.slice(1, -1).map((q) => [q[0], q[1]]);
+          draw();
+        }
+      };
+      svg.onpointerup = (ev) => {
+        if (D) {
+          if (D.t == "link" && D.hid) {
+            snap();
+            const e = {
+              id: uid(),
+              a: D.from,
+              pa: D.pa,
+              b: D.hid,
+              pb: D.hp,
+              style: "ortho",
+              stroke: "#64748b",
+              sw: 1.5,
+              arrow: true,
+              dash: false,
+              text: "",
+            };
+            S.edges.push(e);
+            selE = e.id;
+            sel = [];
+            panel();
+          } else if (D.t == "reend" && D.hid) {
+            delete D.e.wp;
+            if (D.end == "a") {
+              D.e.a = D.hid;
+              D.e.pa = D.hp;
+            } else {
+              D.e.b = D.hid;
+              D.e.pb = D.hp;
+            }
+          } else if (D.t == "box") {
+            const x0 = Math.min(D.p0[0], D.q[0]),
+              x1 = Math.max(D.p0[0], D.q[0]),
+              y0 = Math.min(D.p0[1], D.q[1]),
+              y1 = Math.max(D.p0[1], D.q[1]);
+            if (x1 - x0 > 3 || y1 - y0 > 3) {
+              const hit = S.nodes
+                .filter((n) =>
+                  n.t == "cont"
+                    ? n.x >= x0 &&
+                      n.y >= y0 &&
+                      n.x + n.w <= x1 &&
+                      n.y + n.h <= y1
+                    : n.x < x1 && n.x + n.w > x0 && n.y < y1 && n.y + n.h > y0,
+                )
+                .map((n) => n.id);
+              sel = [...new Set([...sel, ...hit])];
+              panel();
+            }
+          }
+        }
+        const dt = D && D.t;
+        D = null;
+        draw();
+        if (dt == "move" || dt == "res") panel();
+      };
+      svg.onwheel = (ev) => {
+        ev.preventDefault();
+        const r = svg.getBoundingClientRect(),
+          mx = ev.clientX - r.left,
+          my = ev.clientY - r.top,
+          k = Math.min(4, Math.max(0.15, V.k * (ev.deltaY < 0 ? 1.1 : 0.9)));
+        V.x = mx - ((mx - V.x) * k) / V.k;
+        V.y = my - ((my - V.y) * k) / V.k;
+        V.k = k;
+        draw();
+      };
+      svg.ondblclick = (ev) => {
+        const el = document.elementFromPoint(ev.clientX, ev.clientY),
+          g = el && el.closest("[data-id]"),
+          eg = el && el.closest("[data-e]");
+        if (g) {
+          const n = nd(g.dataset.id);
+          editTxt(n.x, n.y, n.w, n.h, n.text, (v) => {
+            snap();
+            n.text = v;
+            draw();
+            panel();
+          });
+        } else if (eg) {
+          const e = ed(eg.dataset.e),
+            r = route(e);
+          editTxt(r.mid[0] - 60, r.mid[1] - 17, 120, 34, e.text, (v) => {
+            snap();
+            e.text = v;
+            draw();
+            panel();
+          });
+        }
+      };
+      function zoom(f) {
+        const r = svg.getBoundingClientRect(),
+          mx = r.width / 2,
+          my = r.height / 2,
+          k = Math.min(4, Math.max(0.15, V.k * f));
+        V.x = mx - ((mx - V.x) * k) / V.k;
+        V.y = my - ((my - V.y) * k) / V.k;
+        V.k = k;
+        draw();
+      }
+      function bbox() {
+        if (!S.nodes.length) return { x: 0, y: 0, w: 200, h: 100 };
+        const x = Math.min(...S.nodes.map((n) => n.x)),
+          y = Math.min(...S.nodes.map((n) => n.y)),
+          X = Math.max(...S.nodes.map((n) => n.x + n.w)),
+          Y = Math.max(
+            ...S.nodes.map((n) => n.y + n.h + (n.text && LB.has(n.t) ? 24 : 0)),
+          );
+        return { x, y, w: X - x, h: Y - y };
+      }
+      function fit() {
+        const b = bbox(),
+          r = svg.getBoundingClientRect(),
+          k = Math.min(1.5, (r.width - 520) / b.w, (r.height - 200) / b.h);
+        V.k = Math.max(0.2, k);
+        V.x = (r.width - b.w * V.k) / 2 - b.x * V.k;
+        V.y = (r.height - b.h * V.k) / 2 - b.y * V.k;
+        draw();
+      }
+      /* ---------- properties ---------- */
+      function panel() {
+        const P = $("#pp"),
+          n = sel.length == 1 ? nd(sel[0]) : null,
+          e = selE ? ed(selE) : null;
+        const c = (l, k, v) =>
+            `<label>${l}<input type="color" data-k="${k}" value="${hex(v)}"></label>`,
+          ck = (l, k, v) =>
+            `<label class="c"><input type="checkbox" data-k="${k}" ${v ? "checked" : ""}> ${l}</label>`,
+          nm = (l, k, v, mn) =>
+            `<label>${l}<input type="number" data-k="${k}" value="${v}" min="${mn || 1}" max="200"></label>`;
+        const acts =
+          '<h4>Aksi</h4><div class="g"><button data-act="dup">Duplikat</button><button data-act="del">Hapus</button><button data-act="fr">Ke depan</button><button data-act="bk">Ke belakang</button></div>';
+        P.style.display = n || e || sel.length > 1 ? "block" : "none";
+        if (n)
+          P.innerHTML = `<h4>${n.t == "img" ? "Gambar" : SH[n.t][0]}</h4><label>Teks<textarea data-k="text" rows="2">${esc(n.text)}</textarea></label>${sizeCtl(n)}<div class="g">${n.t == "img" && !n.tile ? "" : c("Fill", "fill", n.fill) + c("Garis", "stroke", n.stroke)}${c("Warna teks", "tc", n.tc || "#1f2937")}${nm("Font", "fs", n.fs || 13)}${n.t == "img" && !n.tile ? "" : nm("Tebal garis", "sw", n.sw || 1.5)}${nm("Opasitas", "op", n.op || 100, 10)}</div>${ck("Teks tebal", "b", n.b)}${n.t == "img" ? imgCtl(n) : ""}${n.t == "img" ? "" : ck("Garis putus", "dash", n.dash) + (n.t == "cont" ? '<button data-act="nf" style="margin-bottom:6px">Fill transparan</button>' : "")}${acts}`;
+        else if (sel.length > 1)
+          P.innerHTML = `<h4>${sel.length} dipilih</h4><div class="g3"><button data-act="al:l">⇤ Kiri</button><button data-act="al:c">↔ Tengah</button><button data-act="al:r">Kanan ⇥</button><button data-act="al:t">⤒ Atas</button><button data-act="al:m">↕ Tengah</button><button data-act="al:b">Bawah ⤓</button></div>${acts}`;
+        else if (e) {
+          const s = e.style || "ortho";
+          P.innerHTML = `<h4>Koneksi</h4><label>Label<input data-k="text" value="${esc(e.text)}"></label><div class="g3">${[
+            ["ortho", "Siku"],
+            ["straight", "Lurus"],
+            ["curve", "Kurva"],
+          ]
+            .map(
+              ([k, l]) =>
+                `<button data-act="es:${k}" class="${s == k ? "on" : ""}">${l}</button>`,
+            )
+            .join(
+              "",
+            )}</div><div class="g">${c("Warna", "stroke", e.stroke)}${nm("Tebal", "sw", e.sw || 1.5)}</div>${ck("Panah akhir", "arrow", e.arrow)}${ck("Panah awal", "arrowS", e.arrowS)}${ck("Garis putus", "dash", e.dash)}<div class="g"><button data-act="sw">Balik arah</button><button data-act="rb">Reset jalur</button></div><button data-act="del">Hapus</button>`;
+        }
+      }
+      $("#pp").addEventListener("input", (ev) => {
+        const t = ev.target,
+          k = t.dataset.k;
+        if (!k) return;
+        if (k == "unit") {
+          UNIT = t.value;
+          return panel();
+        }
+        if (k == "lk") {
+          LK = t.checked;
+          return;
+        }
+        if (["w", "h", "x", "y"].includes(k)) {
+          const n = nd(sel[0]);
+          let v = parseFloat(t.value);
+          if (!n || isNaN(v)) return;
+          if (UNIT == "cm") v *= 37.795;
+          v = Math.round(v * 10) / 10;
+          if (k == "w" || k == "h") {
+            v = Math.max(10, v);
+            if (LK) {
+              const r = v / n[k];
+              n.w *= r;
+              n.h *= r;
+            } else n[k] = v;
+          } else n[k] = v;
+          draw();
+          ["w", "h"].forEach((c) => {
+            const i = $("#pp [data-k=" + c + "]");
+            if (i && i !== t)
+              i.value =
+                UNIT == "cm" ? (n[c] / 37.795).toFixed(2) : Math.round(n[c]);
+          });
+          return;
+        }
+        const v =
+          t.type == "checkbox"
+            ? t.checked
+            : t.type == "number"
+              ? +t.value || 1
+              : t.type == "range"
+                ? +t.value
+                : t.value;
+        (selE ? [ed(selE)] : sel.map(nd)).forEach((o) => o && (o[k] = v));
+        draw();
+      });
+      $("#pp").addEventListener("focusin", (ev) => {
+        if (
+          ev.target.dataset.k &&
+          !["unit", "lk"].includes(ev.target.dataset.k)
+        )
+          snap();
+      });
+      $("#pp").onclick = (ev) => {
+        const a = (ev.target.closest("[data-act]") || { dataset: {} }).dataset
+          .act;
+        if (!a) return;
+        if (a.startsWith("al:")) return align(a.slice(3));
+        if (a.startsWith("rd:")) {
+          snap();
+          sel.map(nd).forEach((n) => (n.rd = +a.slice(3)));
+          draw();
+          return panel();
+        }
+        if (a.startsWith("es:")) {
+          snap();
+          ed(selE).style = a.slice(3);
+          draw();
+          return panel();
+        }
+        ({
+          del,
+          dup,
+          fr: () => order(true),
+          bk: () => order(false),
+          nf: () => {
+            snap();
+            sel.map(nd).forEach((n) => (n.fill = "none"));
+            draw();
+          },
+          tl: () => {
+            snap();
+            const n = nd(sel[0]);
+            n.tile = !n.tile;
+            if (n.tile) {
+              if (!n.fill || n.fill == "none") n.fill = "#ffffff";
+              if (!n.stroke || n.stroke == "none") n.stroke = "#cbd5e1";
+              if (!n.rd) n.rd = 0.22;
+            }
+            draw();
+            panel();
+          },
+          ri: () => {
+            const n = nd(sel[0]),
+              f = document.createElement("input");
+            f.type = "file";
+            f.accept = "image/*";
+            f.onchange = () => {
+              const r = new FileReader();
+              r.onload = () => {
+                snap();
+                n.src = r.result;
+                draw();
+              };
+              r.readAsDataURL(f.files[0]);
+            };
+            f.click();
+          },
+          sw: () => {
+            snap();
+            const e = ed(selE);
+            [e.a, e.b, e.pa, e.pb] = [e.b, e.a, e.pb, e.pa];
+            if (e.wp) e.wp.reverse();
+            draw();
+          },
+          rb: () => {
+            snap();
+            const e = ed(selE);
+            delete e.bx;
+            delete e.by;
+            delete e.wp;
+            draw();
+          },
+        })[a]();
+      };
+      /* ---------- icons + paste ---------- */
+      function loadIcons() {
+        try {
+          icons = JSON.parse(localStorage.getItem("dg-icons") || "[]");
+        } catch (e) {
+          icons = [];
+        }
+      }
+      function saveIcons() {
+        try {
+          localStorage.setItem("dg-icons", JSON.stringify(icons));
+        } catch (e) {
+          toast("Library penuh, icon tidak tersimpan permanen");
+        }
+        renderIcons();
+      }
+      function renderIcons() {
+        $("#ic").innerHTML = icons
+          .map(
+            (c, i) =>
+              `<div class="ib" data-i="${i}"><img src="${c.src}" alt=""><i data-x="${i}">×</i></div>`,
+          )
+          .join("");
+      }
+      $("#ic").onclick = (ev) => {
+        if (ev.target.dataset.x != null) {
+          icons.splice(+ev.target.dataset.x, 1);
+          saveIcons();
+          return;
+        }
+        const b = ev.target.closest(".ib");
+        if (b) {
+          const c = icons[+b.dataset.i];
+          addImg(c.src, c.w, c.h, 72);
+          if ($("#ltl").checked) styleImg(nd(sel[0]), 0, 1);
+        }
+      };
+      function openCrop(src) {
+        st = { src, r: null };
+        $("#pi").src = src;
+        $("#sr").style.display = "none";
+        $("#md").hidden = false;
+      }
+      $("#stg").onpointerdown = (ev) => {
+        const b = $("#stg").getBoundingClientRect();
+        st.d = { x: ev.clientX - b.left, y: ev.clientY - b.top };
+        $("#stg").setPointerCapture(ev.pointerId);
+      };
+      $("#stg").onpointermove = (ev) => {
+        if (!st || !st.d) return;
+        const b = $("#stg").getBoundingClientRect(),
+          cl = (v, m) => Math.max(0, Math.min(m, v)),
+          x = cl(ev.clientX - b.left, b.width),
+          y = cl(ev.clientY - b.top, b.height),
+          r = {
+            x: Math.min(x, st.d.x),
+            y: Math.min(y, st.d.y),
+            w: Math.abs(x - st.d.x),
+            h: Math.abs(y - st.d.y),
+          };
+        st.r = r;
+        const s = $("#sr").style;
+        s.display = "block";
+        s.left = r.x + "px";
+        s.top = r.y + "px";
+        s.width = r.w + "px";
+        s.height = r.h + "px";
+      };
+      $("#stg").onpointerup = () => {
+        if (st) st.d = null;
+      };
+      function finishCrop(useCrop) {
+        const im = $("#pi"),
+          k = im.naturalWidth / im.clientWidth,
+          r = useCrop && st.r && st.r.w > 4 && st.r.h > 4 ? st.r : null;
+        const sx = r ? r.x * k : 0,
+          sy = r ? r.y * k : 0,
+          sw = r ? r.w * k : im.naturalWidth,
+          sh = r ? r.h * k : im.naturalHeight,
+          s = Math.min(1, 256 / Math.max(sw, sh)),
+          cv = document.createElement("canvas");
+        cv.width = Math.max(1, Math.round(sw * s));
+        cv.height = Math.max(1, Math.round(sh * s));
+        const x = cv.getContext("2d");
+        x.drawImage(im, sx, sy, sw, sh, 0, 0, cv.width, cv.height);
+        if ($("#tr2").checked) {
+          const d = x.getImageData(0, 0, cv.width, cv.height),
+            a = d.data;
+          for (let i = 0; i < a.length; i += 4) {
+            const m = Math.min(a[i], a[i + 1], a[i + 2]);
+            if (m >= 238) a[i + 3] = 0;
+            else if (m > 200)
+              a[i + 3] = Math.round((a[i + 3] * (238 - m)) / 38);
+          }
+          x.putImageData(d, 0, 0);
+        }
+        const src = cv.toDataURL("image/png");
+        $("#md").hidden = true;
+        addImg(src, cv.width, cv.height, r ? 80 : 360);
+        styleImg(nd(sel[0]), $("#rr").checked, $("#tl2").checked);
+        st = null;
+      }
+      $("#bx").onclick = () => finishCrop(true);
+      $("#bf").onclick = () => finishCrop(false);
+      $("#bc").onclick = () => {
+        $("#md").hidden = true;
+        st = null;
+      };
+      function readFile(f) {
+        const r = new FileReader();
+        r.onload = () => openCrop(r.result);
+        r.readAsDataURL(f);
+      }
+      document.addEventListener("paste", (ev) => {
+        if (/INPUT|TEXTAREA/.test(ev.target.tagName)) return;
+        const it = [...(ev.clipboardData?.items || [])].find((i) =>
+          i.type.startsWith("image/"),
+        );
+        if (it) {
+          ev.preventDefault();
+          readFile(it.getAsFile());
+          return;
+        }
+        if (clip) {
+          snap();
+          const m = {},
+            c = clip.n.map((n) => {
+              const o = JSON.parse(JSON.stringify(n));
+              m[n.id] = o.id = uid();
+              o.x += 30;
+              o.y += 30;
+              return o;
+            });
+          S.nodes.push(...c);
+          clip.e
+            .filter((e) => m[e.a] && m[e.b])
+            .forEach((e) =>
+              S.edges.push({ ...e, id: uid(), a: m[e.a], b: m[e.b] }),
+            );
+          sel = c.map((n) => n.id);
+          draw();
+          panel();
+        }
+      });
+      svg.ondragover = (ev) => ev.preventDefault();
+      svg.ondrop = (ev) => {
+        ev.preventDefault();
+        const f = ev.dataTransfer.files[0];
+        if (f && f.type.startsWith("image/")) readFile(f);
+      };
+      $("#up").onclick = () => $("#fi").click();
+      $("#fi").onchange = (ev) => {
+        if (ev.target.files[0]) readFile(ev.target.files[0]);
+        ev.target.value = "";
+      };
+      /* ---------- export / persist ---------- */
+      const DEFS =
+        '<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" orient="auto-start-reverse" markerUnits="userSpaceOnUse"><path d="M0 0L10 5L0 10z" fill="context-stroke"/></marker></defs>';
+      let UNIT = "px",
+        LK = false;
+      const sizeCtl = (n) => {
+        const u = UNIT == "cm",
+          f = (v) => (u ? (v / 37.795).toFixed(2) : Math.round(v)),
+          i = (l, k) =>
+            `<label>${l}<input type="number" data-k="${k}" value="${f(n[k])}" step="${u ? 0.1 : 1}"></label>`;
+        return `<div class="g">${i("Lebar", "w")}${i("Tinggi", "h")}${i("X", "x")}${i("Y", "y")}</div><div class="g"><select data-k="unit"><option value="px"${u ? "" : " selected"}>px</option><option value="cm"${u ? " selected" : ""}>cm</option></select><label class="c"><input type="checkbox" data-k="lk" ${LK ? "checked" : ""}> Kunci rasio</label></div>`;
+      };
+      function isDark() {
+        const t = document.documentElement.dataset.theme;
+        return t
+          ? t == "dark"
+          : matchMedia("(prefers-color-scheme:dark)").matches;
+      }
+      function optNow() {
+        return { grid: GS, theme: isDark() ? "dark" : "light" };
+      }
+      function applyOpt(o) {
+        if (!o) return;
+        if (typeof o.grid == "boolean") {
+          GS = o.grid;
+          $("#gt").classList.toggle("on", GS);
+        }
+        if (o.theme) document.documentElement.dataset.theme = o.theme;
+      }
+      const cssv = (n, f) =>
+        getComputedStyle(document.documentElement).getPropertyValue(n).trim() ||
+        f;
+      function sceneSVG() {
+        const b = bbox(),
+          p = 30,
+          x = b.x - p,
+          y = b.y - p,
+          w = b.w + 2 * p,
+          h = b.h + 2 * p,
+          bg = cssv("--cv", "#fff"),
+          dot = cssv("--dot", "#cdd3df"),
+          ink = cssv("--ink", "#1f2937");
+        const g = GS
+          ? `<defs><pattern id="gd" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1.1" fill="${dot}"/></pattern></defs><rect x="${x}" y="${y}" width="${w}" height="${h}" fill="url(#gd)"/>`
+          : "";
+        return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${x} ${y} ${w} ${h}" width="${w}" height="${h}">${DEFS}<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${bg}"/>${g}${scene().split("var(--ink,#1f2937)").join(ink).split("var(--cv,#fff)").join(bg)}</svg>`;
+      }
+      function dl(blob, name) {
+        try {
+          const a = document.createElement("a");
+          a.href = URL.createObjectURL(blob);
+          a.download = name;
+          a.click();
+        } catch (e) {}
+      }
+      async function copyTxt(t, m) {
+        try {
+          await navigator.clipboard.writeText(t);
+          toast(m);
+        } catch (e) {
+          toast("Clipboard diblokir browser");
+        }
+      }
+      $("#xs").onclick = () => {
+        const s = sceneSVG();
+        dl(new Blob([s], { type: "image/svg+xml" }), "diagram.svg");
+        copyTxt(s, "SVG disalin ke clipboard");
+      };
+      $("#xj").onclick = () => {
+        const s = JSON.stringify({ ...S, opt: optNow() });
+        dl(new Blob([s], { type: "application/json" }), "diagram.json");
+        copyTxt(s, "JSON disalin ke clipboard");
+      };
+      $("#xp").onclick = () => {
+        const im = new Image(),
+          s = sceneSVG();
+        im.onload = () => {
+          const k = 2,
+            c = document.createElement("canvas");
+          c.width = im.width * k;
+          c.height = im.height * k;
+          const x = c.getContext("2d");
+          x.scale(k, k);
+          x.drawImage(im, 0, 0);
+          c.toBlob(async (bl) => {
+            dl(bl, "diagram.png");
+            try {
+              await navigator.clipboard.write([
+                new ClipboardItem({ "image/png": bl }),
+              ]);
+              toast("PNG disalin ke clipboard");
+            } catch (e) {
+              toast("PNG diekspor");
+            }
+          });
+        };
+        im.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(s);
+      };
+      $("#xi").onclick = () => $("#fj").click();
+      $("#fj").onchange = (ev) => {
+        const f = ev.target.files[0];
+        if (!f) return;
+        f.text().then((t) => {
+          try {
+            const o = JSON.parse(t);
+            if (!o.nodes) throw 0;
+            snap();
+            S = o;
+            applyOpt(o.opt);
+            sel = [];
+            selE = null;
+            fit();
+            panel();
+          } catch (e) {
+            toast("File JSON tidak valid");
+          }
+        });
+        ev.target.value = "";
+      };
+      function save() {
+        try {
+          localStorage.setItem(
+            "dg2-doc",
+            JSON.stringify({ ...S, opt: optNow() }),
+          );
+        } catch (e) {}
+      }
+      $("#xc").onclick = () => {
+        if (S.nodes.length && !confirm("Kosongkan canvas?")) return;
+        snap();
+        S = { nodes: [], edges: [] };
+        sel = [];
+        selE = null;
+        draw();
+        panel();
+      };
+      $("#th").onclick = () => {
+        document.documentElement.dataset.theme = isDark() ? "light" : "dark";
+        save();
+      };
+      $("#bu").onclick = undo;
+      $("#br").onclick = redo;
+      $("#zi").onclick = () => zoom(1.2);
+      $("#zo").onclick = () => zoom(1 / 1.2);
+      $("#zf").onclick = fit;
+      $("#t1").onclick = () => setTool("sel");
+      $("#t2").onclick = () => setTool("hand");
+      $("#t3").onclick = () => setTool(tool == "edge" ? "sel" : "edge");
+      $("#gt").onclick = () => {
+        GS = !GS;
+        $("#gt").classList.toggle("on", GS);
+        draw();
+      };
+      document.addEventListener("keyup", (ev) => {
+        if (ev.key == " ") spc = false;
+        if ([" ", "Control", "Meta"].includes(ev.key)) setTool(tool);
+      });
+      document.addEventListener("keydown", (ev) => {
+        if (
+          ["Control", "Meta"].includes(ev.key) ||
+          (ev.key == " " && !/INPUT|TEXTAREA/.test(ev.target.tagName))
+        )
+          svg.style.cursor = "grab";
+      });
+      document.addEventListener("keydown", (ev) => {
+        if (/INPUT|TEXTAREA/.test(ev.target.tagName) || !$("#md").hidden)
+          return;
+        const m = ev.ctrlKey || ev.metaKey,
+          k = ev.key.toLowerCase();
+        if (k == " ") {
+          spc = true;
+          ev.preventDefault();
+        } else if (m && k == "z") {
+          ev.preventDefault();
+          ev.shiftKey ? redo() : undo();
+        } else if (m && k == "y") {
+          ev.preventDefault();
+          redo();
+        } else if (m && k == "d") {
+          ev.preventDefault();
+          dup();
+        } else if (m && k == "c") {
+          if (sel.length) {
+            const s = new Set(sel);
+            clip = {
+              n: sel.map(nd).map((n) => JSON.parse(JSON.stringify(n))),
+              e: S.edges
+                .filter((e) => s.has(e.a) && s.has(e.b))
+                .map((e) => ({ ...e })),
+            };
+          }
+        } else if (m && k == "0") {
+          ev.preventDefault();
+          fit();
+        } else if (m && k == "a") {
+          ev.preventDefault();
+          sel = S.nodes.map((n) => n.id);
+          selE = null;
+          draw();
+          panel();
+        } else if (k == "delete" || k == "backspace") {
+          if (sel.length || selE) del();
+        } else if (k == "escape") {
+          setTool("sel");
+          sel = [];
+          selE = null;
+          draw();
+          panel();
+        } else if (!m && k == "v") setTool("sel");
+        else if (!m && k == "h") setTool("hand");
+        else if (!m && k == "c") setTool(tool == "edge" ? "sel" : "edge");
+        else if (k.startsWith("arrow") && sel.length) {
+          ev.preventDefault();
+          snap();
+          const d = ev.shiftKey ? 10 : 1;
+          sel.map(nd).forEach((n) => {
+            if (k == "arrowleft") n.x -= d;
+            if (k == "arrowright") n.x += d;
+            if (k == "arrowup") n.y -= d;
+            if (k == "arrowdown") n.y += d;
+          });
+          draw();
+        }
+      });
+      /* ---------- init ---------- */
+
+      try {
+        const s = JSON.parse(localStorage.getItem("dg2-doc") || "null");
+        if (s && s.nodes) {
+          S = s;
+          applyOpt(s.opt);
+        }
+      } catch (e) {}
+      if (!S.nodes.length) {
+        const mk = (t, x, y, text, o) =>
+          Object.assign(
+            {
+              id: uid(),
+              t,
+              x,
+              y,
+              w: SH[t][1],
+              h: SH[t][2],
+              fill: "#ffffff",
+              stroke: "#64748b",
+              text,
+              fs: 13,
+              dash: false,
+            },
+            o || {},
+          );
+        const c = mk("cont", 0, 0, "HQ VPC", {
+            w: 560,
+            h: 230,
+            fill: "none",
+            stroke: "#7c3aed",
+            dash: true,
+            tc: "#7c3aed",
+          }),
+          a = mk("round", 40, 90, "Wazuh", {
+            fill: "#e8f0ff",
+            stroke: "#3b82f6",
+          }),
+          b = mk("round", 230, 90, "n8n", {
+            fill: "#e8f0ff",
+            stroke: "#3b82f6",
+          }),
+          d = mk("diamond", 410, 80, "Severity?"),
+          t = mk("term", 640, 95, "Telegram", {
+            w: 120,
+            h: 50,
+            fill: "#e0f2fe",
+            stroke: "#0284c7",
+          }),
+          E = (x, y, tx) => ({
+            id: uid(),
+            a: x.id,
+            pa: null,
+            b: y.id,
+            pb: null,
+            style: "ortho",
+            stroke: "#64748b",
+            sw: 1.5,
+            arrow: true,
+            dash: false,
+            text: tx || "",
+          });
+        S = {
+          nodes: [c, a, b, d, t],
+          edges: [E(a, b, "alert"), E(b, d), E(d, t, "high")],
+        };
+      }
+      panel();
+      draw();
+      setTimeout(fit, 50);
+    </script>
+  </body>
+</html>
